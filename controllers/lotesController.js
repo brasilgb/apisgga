@@ -13,7 +13,7 @@ exports.getOneLote = async (req, res) => {
 exports.postLote = async (req, res) => {
     const {
         lote,
-        periodoId,
+        cicloId,
         data_entrada,
         femea,
         macho,
@@ -22,7 +22,7 @@ exports.postLote = async (req, res) => {
     } = req.body;
     const newLote = await Lote.create({
         lote,
-        periodoId,
+        cicloId,
         data_entrada,
         femea,
         macho,
@@ -35,7 +35,7 @@ exports.postLote = async (req, res) => {
 exports.updateLote = async (req, res) => {
     const {
         lote,
-        periodoId,
+        cicloId,
         data_entrada,
         femea,
         macho,
@@ -45,7 +45,7 @@ exports.updateLote = async (req, res) => {
 
     await Lote.update({
         lote,
-        periodoId,
+        cicloId,
         data_entrada,
         femea,
         macho,

@@ -1,13 +1,14 @@
-const { Aviario, Post } = require('../models');
+const { Aviario, Lote } = require('../models');
 const sequelize = require("sequelize");
+
 exports.getAviarios = async (req, res) => {
     const aviarios = await Aviario.findAll({
-        order: [['name', 'ASC']],
+        order: [['aviario', 'ASC']],
         include: [{
-            model: Post,
+            model: Lote,
             attributes: [
-                'name',
-                [sequelize.literal('(SELECT COUNT(*) FROM Aviarios WHERE Aviarios.postId = Post.postId)'), 'AviarioCount'],
+                'Lote',
+                [sequelize.literal('(SELECT COUNT(*) FROM Aviarios WHERE Aviarios.loteId = Lote.loteId)'), 'Aviarios'],
             ],
         }]
     });
@@ -15,31 +16,83 @@ exports.getAviarios = async (req, res) => {
 }
 
 exports.getOneAviario = async (req, res) => {
-    const aviarios = await Aviario.findByPk(req.params.productId);
+    const aviarios = await Aviario.findByPk(req.params.aviarioId);
     res.status(200).json(aviarios)
 };
 
 exports.postAviario = async (req, res) => {
     const { 
-        postId, 
+        cicloId,
+        loteId,
+        aviario,
+        data_entrada,
+        box1_femea,
+        box2_femea,
+        box3_femea,
+        box4_femea,
+        box1_macho,
+        box2_macho,
+        box3_macho,
+        box4_macho,
+        totl_femea,
+        totl_macho
     } = req.body;
     const newAviario = await Aviario.create({ 
-        postId, 
+        cicloId,
+        loteId,
+        aviario,
+        data_entrada,
+        box1_femea,
+        box2_femea,
+        box3_femea,
+        box4_femea,
+        box1_macho,
+        box2_macho,
+        box3_macho,
+        box4_macho,
+        totl_femea,
+        totl_macho
     });
     res.status(200).json({ message: 'Cadastrado com sucesso' })
 };
 
 exports.updateAviario = async (req, res) => {
     const { 
-        postId, 
+        cicloId,
+        loteId,
+        aviario,
+        data_entrada,
+        box1_femea,
+        box2_femea,
+        box3_femea,
+        box4_femea,
+        box1_macho,
+        box2_macho,
+        box3_macho,
+        box4_macho,
+        totl_femea,
+        totl_macho
     } = req.body;
 
     await Aviario.update({ 
-        postId, 
+        cicloId,
+        loteId,
+        aviario,
+        data_entrada,
+        box1_femea,
+        box2_femea,
+        box3_femea,
+        box4_femea,
+        box1_macho,
+        box2_macho,
+        box3_macho,
+        box4_macho,
+        totl_femea,
+        totl_macho
     },
         {
             where: {
-                productId: req.body.productId
+                aviarioId: req.body.aviarioId
             },
         }
     );
@@ -49,7 +102,7 @@ exports.updateAviario = async (req, res) => {
 exports.deleteAviario = async (req, res) => {
     await Aviario.destroy({
         where: {
-            productId: req.body.productId
+            aviarioId: req.body.aviarioId
         }
     });
     res.status(200).json({ message: 'Excluido com sucesso' })

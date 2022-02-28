@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const login = require('../middleware/login');
 
-const productsController = require('../controllers/productsController');
+const aviariosController = require('../controllers/aviariosController');
 
-router.get('/', productsController.getProducts);
-router.get('/:productId', productsController.getOneProduct);
-router.post('/', login.required, productsController.postProduct);
-router.patch('/', login.required, productsController.updateProduct);
-router.delete('/', login.required, productsController.deleteProduct);
+router.get('/', aviariosController.getAviarios);
+router.get('/:aviarioId', aviariosController.getOneAviario);
+router.post('/', login.required, aviariosController.postAviario);
+router.patch('/', login.required, aviariosController.updateAviario);
+router.delete('/', login.required, aviariosController.deleteAviario);
 
 module.exports = router;

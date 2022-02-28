@@ -1,54 +1,54 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Lotes', {
-      loteId: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
+    await queryInterface.createTable('Metas', {
+      metaId: {
+        allowNull: false,
         autoIncrement: true,
-        allowNull: false
+        primaryKey: true,
+        type: Sequelize.INTEGER
       },
       cicloId: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      lote: {
+      tipo_periodo: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      data_entrada: {
+      valor_periodo: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      tipo_meta: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      valor_meta: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
+      data_inicial: {
         type: Sequelize.DATE,
         allowNull: false
       },
-      femea: {
-        type: Sequelize.INTEGER,
+      data_final: {
+        type: Sequelize.DATE,
         allowNull: false
-      },
-      macho: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      capi_femea: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
-      capi_macho: {
-        type: Sequelize.INTEGER,
-        allowNull: true
       },
       created_at: {
-        type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updated_at: {
-        type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.DATE
       }
     })
-      .then(() => queryInterface.addConstraint('Lotes', {
+      .then(() => queryInterface.addConstraint('Metas', {
         fields: ['cicloId'],
         type: 'FOREIGN KEY',
-        name: 'FK_ciclo_lote',
+        name: 'FK_ciclo_semanas',
         references: {
           table: 'Ciclos',
           field: 'cicloId',
@@ -58,6 +58,6 @@ module.exports = {
       }));
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Lotes');
+    await queryInterface.dropTable('Metas');
   }
 };

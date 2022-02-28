@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     
     static associate(models) {
       Aviario.belongsTo(models.Lote, {
-        foreignKey: 'lotesId',
+        foreignKey: 'loteId',
         onDelete: 'CASCADE'
       });
     }
@@ -19,8 +19,14 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       field: "aviarioId"
     },
-    periodoId: DataTypes.INTEGER,
-    loteId: DataTypes.INTEGER,
+    cicloId: {
+      type: DataTypes.INTEGER,
+      field: "cicloId"
+    },
+    loteId: {
+      type: DataTypes.INTEGER,
+      field: "loteId"
+    },
     aviario: DataTypes.STRING,
     data_entrada: DataTypes.DATE,
     box1_femea: DataTypes.INTEGER,

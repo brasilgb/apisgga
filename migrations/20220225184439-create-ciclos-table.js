@@ -1,8 +1,8 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Periodos', {
-      periodoId: {
+    await queryInterface.createTable('Ciclos', {
+      cicloId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -14,18 +14,19 @@ module.exports = {
       },
       data_final: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: true
       },
       semn_inicial: {
-        type: Sequelize.DATE,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       semn_final: {
-        type: Sequelize.DATE,
-        allowNull: false
+        type: Sequelize.INTEGER,
+        allowNull: true
       },
       ativo: {
         type: Sequelize.BOOLEAN,
+        defaultValue: true,
         allowNull: false
       },
       created_at: {
@@ -39,6 +40,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Periodos');
+    await queryInterface.dropTable('Ciclos');
   }
 };

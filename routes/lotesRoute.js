@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const login = require('../middleware/login');
 
-const categoriesController = require('../controllers/categoriesController');
+const lotesController = require('../controllers/lotesController');
 
-router.get('/', categoriesController.getCategories);
-router.get('/:productId', categoriesController.getOneCategory);
-router.post('/', login.required, categoriesController.postCategory);
-router.patch('/', login.required, categoriesController.updateCategory);
-router.delete('/', login.required, categoriesController.deleteCategory);
+router.get('/', lotesController.getLotes);
+router.get('/:loteId', lotesController.getOneLote);
+router.post('/', login.required, lotesController.postLote);
+router.patch('/', login.required, lotesController.updateLote);
+router.delete('/', login.required, lotesController.deleteLote);
 
 module.exports = router;

@@ -3,18 +3,18 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Periodo extends Model {
+  class Ciclo extends Model {
 
     static associate(models) {
 
     }
   }
-  Periodo.init({
-    periodoId: {
+  Ciclo.init({
+    CicloId: {
       type: DataTypes.INTEGER,
       unique: true,
       primaryKey: true,
-      field: "productId"
+      field: "cicloId"
     },
     data_inicial: DataTypes.DATE,
     data_final: DataTypes.DATE,
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     ativo: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'Periodo',
+    modelName: 'Ciclo',
   });
-  return Periodo;
+  return Ciclo;
 };

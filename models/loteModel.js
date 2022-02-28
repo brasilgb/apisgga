@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class Lote extends Model {
     
     static associate(models) {
-      Lote.belongsTo(models.Periodo, {
-        foreignKey: 'periodoId',
+      Lote.belongsTo(models.Ciclo, {
+        foreignKey: 'cicloId',
         onDelete: 'CASCADE'
       });
     }
@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       field: "loteId"
     },
-    periodoId: DataTypes.INTEGER,
+    cicloId: {
+      type: DataTypes.INTEGER,
+      field: "cicloId"
+    },
     lote: DataTypes.STRING,
     data_entrada: DataTypes.DATE,
     femea: DataTypes.INTEGER,

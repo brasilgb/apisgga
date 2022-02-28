@@ -8,7 +8,7 @@ module.exports = {
         autoIncrement: true,
         allowNull: false
       },
-      periodoId: {
+      cicloId: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
@@ -56,10 +56,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true
       },
-      tot_femea: {
+      totl_femea: {
         type: Sequelize.INTEGER
       },
-      tot_macho: {
+      totl_macho: {
         type: Sequelize.INTEGER
       },
       created_at: {
