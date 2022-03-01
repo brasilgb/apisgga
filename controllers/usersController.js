@@ -55,7 +55,6 @@ exports.postUser = async (req, res) => {
     if (results) {
         return res.status(409).send({ message: "Usuário existe na base de dados!" });
     }
-
     const { name, email, password, active } = req.body;
     await User.create({ name, email, password, active })
     .then(() => {
@@ -72,21 +71,38 @@ exports.postUser = async (req, res) => {
             }
         }
         res.status(200).json(response)
+    }).catch((err) => {
+        res.status(500).json(err)
     });
     
 };
 
 exports.updateUser = async (req, res) => {
     const { name, email, password, active } = req.body;
-
     await User.update({ name, email, password, active },
         {
             where: {
                 userId: req.body.userId
             },
         }
-    );
-    res.status(200).json({ message: 'Editado com sucesso' })
+    )
+    .then(() => {
+        const response = {
+            message: "Usuário editado com sucesso!",
+            usuário: {
+                name: req.body.name,
+                request: {
+                    Type: "GET",
+                    Description: "Retorna todos os usuários cadastrados.",
+                    url: process.env.URL_API + 'users'
+                }
+            }
+        }
+        res.status(200).json(response)
+    }).catch((err) => {
+        res.status(500).json(err)
+    });
+    
 };
 
 exports.deleteUser = async (req, res) => {

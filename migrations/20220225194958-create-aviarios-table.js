@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Aviarios', {
+    await queryInterface.createTable('aviarios', {
       aviarioId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -71,12 +71,12 @@ module.exports = {
         allowNull: false
       }
     })
-      .then(() => queryInterface.addConstraint('Aviarios', {
+      .then(() => queryInterface.addConstraint('aviarios', {
         fields: ['loteId'],
         type: 'FOREIGN KEY',
         name: 'FK_lote_aviario',
         references: {
-          table: 'Lotes',
+          table: 'lotes',
           field: 'loteId',
         },
         onDelete: 'cascade',
@@ -84,6 +84,6 @@ module.exports = {
       }));
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Aviarios');
+    await queryInterface.dropTable('aviarios');
   }
 };

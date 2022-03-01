@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Metas', {
+    await queryInterface.createTable('metas', {
       metaId: {
         allowNull: false,
         autoIncrement: true,
@@ -45,12 +45,12 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-      .then(() => queryInterface.addConstraint('Metas', {
+      .then(() => queryInterface.addConstraint('metas', {
         fields: ['cicloId'],
         type: 'FOREIGN KEY',
         name: 'FK_ciclo_semanas',
         references: {
-          table: 'Ciclos',
+          table: 'ciclos',
           field: 'cicloId',
         },
         onDelete: 'cascade',
@@ -58,6 +58,6 @@ module.exports = {
       }));
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Metas');
+    await queryInterface.dropTable('metas');
   }
 };
