@@ -30,19 +30,18 @@ exports.getOneUser = async (req, res) => {
     await User.findByPk(req.params.userId)
         .then((user) => {
             const response = {
-                    userId: user.userId,
-                    name: user.name,
-                    request: {
-                        Type: "GET",
-                        Description: "Retorna todos os usuários cadastrados.",
-                        url: process.env.URL_API + 'users'
-                    }
+                userId: user.userId,
+                name: user.name,
+                request: {
+                    Type: "GET",
+                    Description: "Retorna todos os usuários cadastrados.",
+                    url: process.env.URL_API + 'users'
+                }
             }
             res.status(200).json(response)
         }).catch((err) => {
             res.status(500).json(err)
         });
-
 };
 
 exports.postUser = async (req, res) => {
@@ -57,24 +56,23 @@ exports.postUser = async (req, res) => {
     }
     const { name, email, password, active } = req.body;
     await User.create({ name, email, password, active })
-    .then(() => {
-        const response = {
-            message: "Usuário cadastrado com sucesso!",
-            usuário: {
-                // userId: '',
-                name: req.body.name,
-                request: {
-                    Type: "GET",
-                    Description: "Retorna todos os usuários cadastrados.",
-                    url: process.env.URL_API + 'users'
+        .then(() => {
+            const response = {
+                message: "Usuário cadastrado com sucesso!",
+                usuário: {
+                    name: req.body.name,
+                    request: {
+                        Type: "GET",
+                        Description: "Retorna todos os usuários cadastrados.",
+                        url: process.env.URL_API + 'users'
+                    }
                 }
             }
-        }
-        res.status(200).json(response)
-    }).catch((err) => {
-        res.status(500).json(err)
-    });
-    
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
+
 };
 
 exports.updateUser = async (req, res) => {
@@ -86,23 +84,23 @@ exports.updateUser = async (req, res) => {
             },
         }
     )
-    .then(() => {
-        const response = {
-            message: "Usuário editado com sucesso!",
-            usuário: {
-                name: req.body.name,
-                request: {
-                    Type: "GET",
-                    Description: "Retorna todos os usuários cadastrados.",
-                    url: process.env.URL_API + 'users'
+        .then(() => {
+            const response = {
+                message: "Usuário editado com sucesso!",
+                usuário: {
+                    name: req.body.name,
+                    request: {
+                        Type: "GET",
+                        Description: "Retorna todos os usuários cadastrados.",
+                        url: process.env.URL_API + 'users'
+                    }
                 }
             }
-        }
-        res.status(200).json(response)
-    }).catch((err) => {
-        res.status(500).json(err)
-    });
-    
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
+
 };
 
 exports.deleteUser = async (req, res) => {
@@ -110,8 +108,20 @@ exports.deleteUser = async (req, res) => {
         where: {
             userId: req.body.userId
         }
+    }).then(() => {
+        const response = {
+            message: 'Usuário excluido com sucesso.',
+            request: {
+                Type: "POST",
+                Description: "Cadastra um usuário.",
+                url: process.env.URL_API + 'users'
+            }
+        }
+        res.status(200).json(response)
+    }).catch((err) => {
+        res.status(500).json(err);
     });
-    res.status(200).json({ message: 'Excluido com sucesso' })
+
 };
 
 
@@ -128,6 +138,6 @@ exports.Login = async (req, res, next) => {
         }
 
     } else {
-        res.status(404).json({ error: "User does not exist" });
+        res.status(404).json({ error: "Usuário inexistente existe" });
     }
 };

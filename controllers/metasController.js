@@ -1,42 +1,87 @@
 const { Meta } = require('../models');
 
 exports.getMetas = async (req, res) => {
-    const Metas = await Meta.findAll();
-    res.status(200).json(Metas);
+    await Meta.findAll()
+        .then((metas) => {
+            const response = {
+                metasNumber: metas.length,
+                metas: metas.map((meta) => {
+                    return {
+                        metaId: meta.metaId,
+                        meta: meta.valor_meta,
+                        request: {
+                            Type: "GET",
+                            Description: "Retorna dados das metas cadastradas.",
+                            url: process.env.URL_API + 'metas/' + meta.metaId
+                        }
+                    }
+                }),
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 }
 
 exports.getOneMeta = async (req, res) => {
-    const Metas = await Meta.findByPk(req.params.metaId);
-    res.status(200).json(Metas)
+    await Meta.findByPk(req.params.metaId)
+        .then((meta) => {
+            const response = {
+                metaId: meta.metaId,
+                meta: meta.valor_meta,
+                request: {
+                    Type: "GET",
+                    Description: "Retorna todos os metas cadastrados.",
+                    url: process.env.URL_API + 'metas'
+                }
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 };
 
 exports.postMeta = async (req, res) => {
     const {
-        periodoId,
+        cicloId,
         tipo_periodo,
-        desc_periodo,
+        valor_periodo,
         tipo_meta,
         valor_meta,
         data_inicial,
         data_final
     } = req.body;
-    const newMeta = await Meta.create({
-        periodoId,
+    await Meta.create({
+        cicloId,
         tipo_periodo,
-        desc_periodo,
+        valor_periodo,
         tipo_meta,
         valor_meta,
         data_inicial,
         data_final
-    });
-    res.status(200).json({ message: 'Cadastrado com sucesso' })
+    })
+        .then(() => {
+            const response = {
+                message: "Meta cadastrada com sucesso!",
+                lote: {
+                    request: {
+                        Type: "GET",
+                        Description: "Retorna todos as metas cadastradas.",
+                        url: process.env.URL_API + 'metas'
+                    }
+                }
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 };
 
 exports.updateMeta = async (req, res) => {
     const {
         periodoId,
         tipo_periodo,
-        desc_periodo,
+        valor_periodo,
         tipo_meta,
         valor_meta,
         data_inicial,
@@ -46,7 +91,7 @@ exports.updateMeta = async (req, res) => {
     await Meta.update({
         periodoId,
         tipo_periodo,
-        desc_periodo,
+        valor_periodo,
         tipo_meta,
         valor_meta,
         data_inicial,
@@ -57,8 +102,20 @@ exports.updateMeta = async (req, res) => {
                 metaId: req.body.metaId
             },
         }
-    );
-    res.status(200).json({ message: 'Editado com sucesso' })
+    )
+        .then(() => {
+            const response = {
+                message: "Meta editada com sucesso.",
+                request: {
+                    type: "GET",
+                    Description: "Retorna todos as metas cadastrados.",
+                    url: process.env.URL_API + 'metas'
+                }
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 };
 
 exports.deleteMeta = async (req, res) => {
@@ -66,6 +123,18 @@ exports.deleteMeta = async (req, res) => {
         where: {
             metaId: req.body.metaId
         }
-    });
-    res.status(200).json({ message: 'Excluido com sucesso' })
+    })
+        .then(() => {
+            const response = {
+                message: "Meta excluída com sucesso.",
+                request: {
+                    type: "POST",
+                    Description: "Cadastra um meta.",
+                    url: process.env.URL_API + 'metas'
+                }
+            };
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(200).json(err)
+        });
 };

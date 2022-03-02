@@ -1,27 +1,49 @@
 const { Aviario, Lote } = require('../models');
-const sequelize = require("sequelize");
 
 exports.getAviarios = async (req, res) => {
-    const aviarios = await Aviario.findAll({
-        order: [['aviario', 'ASC']],
-        include: [{
-            model: Lote,
-            attributes: [
-                'Lote',
-                [sequelize.literal('(SELECT COUNT(*) FROM Aviarios WHERE Aviarios.loteId = Lote.loteId)'), 'Aviarios'],
-            ],
-        }]
-    });
-    res.status(200).json(aviarios);
+    const aviarios = await Aviario.findAll()
+        .then((aviarios) => {
+            const response = {
+                aviariosNumber: aviarios.length,
+                aviarios: aviarios.map((aviario) => {
+                    return {
+                        aviarioId: aviario.aviarioId,
+                        loteId: aviario.loteId,
+                        aviario: aviario.aviario,
+                        request: {
+                            Type: "GET",
+                            Description: "Retorna dados dos aviario cadastrados.",
+                            url: process.env.URL_API + 'aviarios/' + aviario.aviarioId
+                        }
+                    }
+                }),
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 }
 
 exports.getOneAviario = async (req, res) => {
-    const aviarios = await Aviario.findByPk(req.params.aviarioId);
-    res.status(200).json(aviarios)
+    const aviarios = await Aviario.findByPk(req.params.aviarioId)
+        .then((aviario) => {
+            const response = {
+                aviarioId: aviario.aviarioId,
+                aviario: aviario.aviario,
+                request: {
+                    Type: "GET",
+                    Description: "Retorna todos os aviarios cadastrados.",
+                    url: process.env.URL_API + 'aviarios'
+                }
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 };
 
 exports.postAviario = async (req, res) => {
-    const { 
+    const {
         cicloId,
         loteId,
         aviario,
@@ -37,7 +59,7 @@ exports.postAviario = async (req, res) => {
         totl_femea,
         totl_macho
     } = req.body;
-    const newAviario = await Aviario.create({ 
+    const newAviario = await Aviario.create({
         cicloId,
         loteId,
         aviario,
@@ -52,12 +74,26 @@ exports.postAviario = async (req, res) => {
         box4_macho,
         totl_femea,
         totl_macho
-    });
-    res.status(200).json({ message: 'Cadastrado com sucesso' })
+    })
+        .then(() => {
+            const response = {
+                message: "Aviario cadastrado com sucesso!",
+                lote: {
+                    request: {
+                        Type: "GET",
+                        Description: "Retorna todos os aviarios cadastrados.",
+                        url: process.env.URL_API + 'aviarios'
+                    }
+                }
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 };
 
 exports.updateAviario = async (req, res) => {
-    const { 
+    const {
         cicloId,
         loteId,
         aviario,
@@ -74,7 +110,7 @@ exports.updateAviario = async (req, res) => {
         totl_macho
     } = req.body;
 
-    await Aviario.update({ 
+    await Aviario.update({
         cicloId,
         loteId,
         aviario,
@@ -95,8 +131,20 @@ exports.updateAviario = async (req, res) => {
                 aviarioId: req.body.aviarioId
             },
         }
-    );
-    res.status(200).json({ message: 'Editado com sucesso' })
+    )
+        .then(() => {
+            const response = {
+                message: "Aviário editado com sucesso.",
+                request: {
+                    type: "GET",
+                    Description: "Retorna todos os aviarios cadastrados.",
+                    url: process.env.URL_API + 'aviarios'
+                }
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 };
 
 exports.deleteAviario = async (req, res) => {
@@ -104,6 +152,18 @@ exports.deleteAviario = async (req, res) => {
         where: {
             aviarioId: req.body.aviarioId
         }
-    });
-    res.status(200).json({ message: 'Excluido com sucesso' })
+    })
+        .then(() => {
+            const response = {
+                message: "Aviario excluído com sucesso.",
+                request: {
+                    type: "POST",
+                    Description: "Cadastra um aviario.",
+                    url: process.env.URL_API + 'aviarios'
+                }
+            };
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(200).json(err)
+        });
 };

@@ -4,9 +4,9 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Meta extends Model {
-    
+
     static associate(models) {
-    
+
     }
   }
   Meta.init({
@@ -16,9 +16,14 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       field: "metaId"
     },
-    cicloId: DataTypes.INTEGER,
+    cicloId: {
+      type: DataTypes.INTEGER,
+      unique: true,
+      primaryKey: true,
+      field: "cicloId"
+    },
     tipo_periodo: DataTypes.STRING,
-    desc_periodo: DataTypes.STRING,
+    valor_periodo: DataTypes.STRING,
     tipo_meta: DataTypes.STRING,
     valor_meta: DataTypes.FLOAT,
     data_inicial: DataTypes.DATE,
@@ -26,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Meta',
+    tableName: 'metas'
   });
   return Meta;
 };

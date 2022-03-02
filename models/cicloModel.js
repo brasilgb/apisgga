@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Ciclo.init({
-    CicloId: {
+    cicloId: {
       type: DataTypes.INTEGER,
       unique: true,
       primaryKey: true,
@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Ciclo',
+    tableName: 'ciclos'
   });
   return Ciclo;
 };

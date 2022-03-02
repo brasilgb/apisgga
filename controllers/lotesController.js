@@ -1,16 +1,55 @@
 const { Lote } = require('../models');
 
 exports.getLotes = async (req, res) => {
-    const lotes = await Lote.findAll();
-    res.status(200).json(lotes);
+    await Lote.findAll()
+        .then((lotes) => {
+            const response = {
+                lotesNumber: lotes.length,
+                lotes: lotes.map((lote) => {
+                    return {
+                        loteId: lote.loteId,
+                        lote: lote.lote,
+                        request: {
+                            Type: "GET",
+                            Description: "Retorna dados dos usuários cadastrados.",
+                            url: process.env.URL_API + 'lotes/' + lote.loteId
+                        }
+                    }
+                }),
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 }
 
 exports.getOneLote = async (req, res) => {
-    const lotes = await Lote.findByPk(req.params.loteId);
-    res.status(200).json(lotes)
+    await Lote.findByPk(req.params.loteId)
+        .then((lote) => {
+            const response = {
+                loteId: lote.loteId,
+                lote: lote.lote,
+                request: {
+                    Type: "GET",
+                    Description: "Retorna todos os lotes cadastrados.",
+                    url: process.env.URL_API + 'lotes'
+                }
+            }
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 };
 
 exports.postLote = async (req, res) => {
+    const results = await Lote.findOne({
+        where: {
+            lote: req.body.lote
+        }
+    });
+    if (results) {
+        return res.status(409).send({ message: "Lote existente na base de dados!" });
+    }
     const {
         lote,
         cicloId,
@@ -28,8 +67,22 @@ exports.postLote = async (req, res) => {
         macho,
         capi_femea,
         capi_macho
+    })
+    .then(() => {
+        const response = {
+            message: "Lote cadastrado com sucesso!",
+            lote: {
+                request: {
+                    Type: "GET",
+                    Description: "Retorna todos os lotes cadastrados.",
+                    url: process.env.URL_API + 'lotes'
+                }
+            }
+        }
+        res.status(200).json(response)
+    }).catch((err) => {
+        res.status(500).json(err)
     });
-    res.status(200).json({ message: 'Cadastrado com sucesso' })
 };
 
 exports.updateLote = async (req, res) => {
@@ -57,8 +110,20 @@ exports.updateLote = async (req, res) => {
                 loteId: req.body.loteId
             },
         }
-    );
-    res.status(200).json({ message: 'Editado com sucesso' })
+    )
+    .then(() => {
+        const response = {
+            message: "Lote editado com sucesso.",
+            request: {
+                type: "GET",
+                Description: "Retorna todos os lotes cadastrados.",
+                url: process.env.URL_API + 'lotes'
+            }
+        }
+        res.status(200).json(response)
+    }).catch((err) => {
+        res.status(500).json(err)
+    });
 };
 
 exports.deleteLote = async (req, res) => {
@@ -66,6 +131,18 @@ exports.deleteLote = async (req, res) => {
         where: {
             loteId: req.body.loteId
         }
+    })
+    .then(() => {
+        const response = {
+            message: "Lote excluído com sucesso.",
+            request: {
+                type: "POST",
+                Description: "Cadastra um lote.",
+                url: process.env.URL_API + 'lotes'
+            }
+        };
+        res.status(200).json(response)
+    }).catch((err) => {
+        res.status(200).json(err)
     });
-    res.status(200).json({ message: 'Excluido com sucesso' })
 };
