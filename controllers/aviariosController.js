@@ -1,7 +1,7 @@
-const { Aviario, Lote } = require('../models');
+const { Aviario } = require('../models');
 
 exports.getAviarios = async (req, res) => {
-    const aviarios = await Aviario.findAll()
+    await Aviario.findAll()
         .then((aviarios) => {
             const response = {
                 aviariosNumber: aviarios.length,
@@ -25,7 +25,7 @@ exports.getAviarios = async (req, res) => {
 }
 
 exports.getOneAviario = async (req, res) => {
-    const aviarios = await Aviario.findByPk(req.params.aviarioId)
+    await Aviario.findByPk(req.params.aviarioId)
         .then((aviario) => {
             const response = {
                 aviarioId: aviario.aviarioId,
