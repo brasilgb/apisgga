@@ -3,20 +3,28 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Aviario extends Model {
-    
+  class Mortalidade extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
     static associate(models) {
-      Aviario.belongsTo(models.Lote, {
-        foreignKey: 'loteId',
+      Mortalidade.belongsTo(models.Ciclo, {
+        foreignKey: 'cicloId',
         onDelete: 'CASCADE'
-      });
+      })
     }
   }
-  Aviario.init({
-    aviarioId: {
+  Mortalidade.init({
+    mortalidadeId: {
       type: DataTypes.INTEGER,
       unique: true,
       primaryKey: true,
+      field: "mortalidadeId"
+    },
+    aviarioId: {
+      type: DataTypes.INTEGER,
       field: "aviarioId"
     },
     cicloId: {
@@ -27,8 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       field: "loteId"
     },
-    aviario: DataTypes.STRING,
-    data_entrada: DataTypes.DATE,
+    data_mortalidade: DataTypes.DATE,
     box1_femea: DataTypes.INTEGER,
     box2_femea: DataTypes.INTEGER,
     box3_femea: DataTypes.INTEGER,
@@ -41,8 +48,8 @@ module.exports = (sequelize, DataTypes) => {
     totl_macho: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Aviario',
-    tableName: 'aviarios'
+    modelName: 'Mortalidade',
+    tableName: 'mortalidades'
   });
-  return Aviario;
+  return Mortalidade;
 };

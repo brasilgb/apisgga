@@ -9,6 +9,10 @@ const aviariosRoute = require('./routes/aviariosRoute');
 const metasRoute = require('./routes/metasRoute');
 const coletasRoute = require('./routes/coletasRoute');
 const enviosRoute = require('./routes/enviosRoute');
+const mortalidadesRoute = require('./routes/mortalidadesRoute');
+const pesagensRoute = require('./routes/pesagensRoute');
+const recebimentosRoute = require('./routes/recebimentosRoute');
+const consumosRoute = require('./routes/consumosRoute');
 
 app.use(bodyParser.json());
 
@@ -19,5 +23,9 @@ app.use('/aviarios', aviariosRoute);
 app.use('/metas', metasRoute);
 app.use('/coletas', coletasRoute);
 app.use('/envios', enviosRoute);
+app.use('/mortalidades', mortalidadesRoute);
+app.use('/pesagens', pesagensRoute);
+app.use('/recebimentos', recebimentosRoute);
+app.use('/consumos', consumosRoute);
 
 app.listen(port, () => console.log(`Server on port: ${port}`));
