@@ -1,7 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 8080;
+const port = process.env.PORT_API || 3000;
 const userRoute = require('./routes/usersRoute');
 const ciclosRoute = require('./routes/ciclosRoute');
 const lotesRoute = require('./routes/lotesRoute');
@@ -14,6 +15,11 @@ const pesagensRoute = require('./routes/pesagensRoute');
 const recebimentosRoute = require('./routes/recebimentosRoute');
 const consumosRoute = require('./routes/consumosRoute');
 const tarefasRoute = require('./routes/tarefasRoute');
+const controlesRoute = require('./routes/controlesRoute');
+const despesasRoute = require('./routes/despesasRoute');
+const entradasRoute = require('./routes/entradasRoute');
+const empresasRoute = require('./routes/empresasRoute');
+const emailsRoute = require('./routes/emailsRoute');
 
 app.use(bodyParser.json());
 
@@ -29,5 +35,10 @@ app.use('/pesagens', pesagensRoute);
 app.use('/recebimentos', recebimentosRoute);
 app.use('/consumos', consumosRoute);
 app.use('/tarefas', tarefasRoute);
+app.use('/controles', controlesRoute);
+app.use('/despesas', despesasRoute);
+app.use('/entradas', entradasRoute);
+app.use('/empresas', empresasRoute);
+app.use('/emails', emailsRoute);
 
 app.listen(port, () => console.log(`Server on port: ${port}`));

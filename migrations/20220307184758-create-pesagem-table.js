@@ -75,17 +75,17 @@ module.exports = {
         allowNull: false
       }
     })
-    .then(() => queryInterface.addConstraint('pesagens', {
-      fields: ['cicloId'],
-      type: 'FOREIGN KEY',
-      name: 'FK_ciclo_pesagem',
-      references: {
-        table: 'ciclos',
-        field: 'cicloId',
-      },
-      onDelete: 'cascade',
-      onUpdate: 'no action',
-    }));
+      .then(() => queryInterface.addConstraint('pesagens', {
+        fields: ['cicloId'],
+        type: 'FOREIGN KEY',
+        name: 'FK_ciclo_pesagem',
+        references: {
+          table: 'ciclos',
+          field: 'cicloId',
+        },
+        onDelete: 'cascade',
+        onUpdate: 'no action',
+      }));
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('pesagens');
