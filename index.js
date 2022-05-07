@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+var cors = require('cors')
 const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT_API || 3000;
@@ -21,6 +22,7 @@ const entradasRoute = require('./routes/entradasRoute');
 const empresasRoute = require('./routes/empresasRoute');
 const emailsRoute = require('./routes/emailsRoute');
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/users', userRoute);

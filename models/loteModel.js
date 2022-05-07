@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'cicloId',
         onDelete: 'CASCADE'
       });
+      Lote.hasMany(models.Aviario, {
+        foreignKey: 'loteId',
+        as: 'aviarios',
+        onDelete: 'CASCADE'
+      });
     }
   }
   Lote.init({

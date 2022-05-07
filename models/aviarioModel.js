@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Aviario.belongsTo(models.Lote, {
         foreignKey: 'loteId',
+        as: 'lote',
         onDelete: 'CASCADE'
       });
     }

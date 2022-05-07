@@ -1,17 +1,27 @@
-const { Lote } = require('../models');
+const { Lote, Aviario } = require('../models');
 
 exports.getLotes = async (req, res) => {
-    await Lote.findAll()
+    await Lote.findAll({ include: 'aviarios' })
         .then((lotes) => {
             const response = {
                 lotesNumber: lotes.length,
-                lotes: lotes.map((lote) => {
+                
+                allLotes: lotes.map((lote) => {
                     return {
+                        aviariosNumber: lote.aviarios.length,
                         loteId: lote.loteId,
+                        cicloId: lote.cicloId,
                         lote: lote.lote,
+                        data_entrada: lote.data_entrada,
+                        femea: lote.femea,
+                        macho: lote.macho,
+                        capi_femea: lote.capi_femea,
+                        capi_macho: lote.capi_macho,
+                        createdAt: lote.createdAt,
+                        updatedAt: lote.updatedAt,
                         request: {
                             Type: "GET",
-                            Description: "Retorna dados dos usuários cadastrados.",
+                            Description: "Retorna dados dos lotes cadastrados.",
                             url: process.env.URL_API + 'lotes/' + lote.loteId
                         }
                     }
@@ -68,21 +78,21 @@ exports.postLote = async (req, res) => {
         capi_femea,
         capi_macho
     })
-    .then(() => {
-        const response = {
-            message: "Lote cadastrado com sucesso!",
-            lote: {
-                request: {
-                    Type: "GET",
-                    Description: "Retorna todos os lotes cadastrados.",
-                    url: process.env.URL_API + 'lotes'
+        .then(() => {
+            const response = {
+                message: "Lote cadastrado com sucesso!",
+                lote: {
+                    request: {
+                        Type: "GET",
+                        Description: "Retorna todos os lotes cadastrados.",
+                        url: process.env.URL_API + 'lotes'
+                    }
                 }
             }
-        }
-        res.status(200).json(response)
-    }).catch((err) => {
-        res.status(500).json(err)
-    });
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 };
 
 exports.updateLote = async (req, res) => {
@@ -111,19 +121,19 @@ exports.updateLote = async (req, res) => {
             },
         }
     )
-    .then(() => {
-        const response = {
-            message: "Lote editado com sucesso.",
-            request: {
-                type: "GET",
-                Description: "Retorna todos os lotes cadastrados.",
-                url: process.env.URL_API + 'lotes'
+        .then(() => {
+            const response = {
+                message: "Lote editado com sucesso.",
+                request: {
+                    type: "GET",
+                    Description: "Retorna todos os lotes cadastrados.",
+                    url: process.env.URL_API + 'lotes'
+                }
             }
-        }
-        res.status(200).json(response)
-    }).catch((err) => {
-        res.status(500).json(err)
-    });
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(500).json(err)
+        });
 };
 
 exports.deleteLote = async (req, res) => {
@@ -132,17 +142,17 @@ exports.deleteLote = async (req, res) => {
             loteId: req.body.loteId
         }
     })
-    .then(() => {
-        const response = {
-            message: "Lote excluído com sucesso.",
-            request: {
-                type: "POST",
-                Description: "Cadastra um lote.",
-                url: process.env.URL_API + 'lotes'
-            }
-        };
-        res.status(200).json(response)
-    }).catch((err) => {
-        res.status(200).json(err)
-    });
+        .then(() => {
+            const response = {
+                message: "Lote excluído com sucesso.",
+                request: {
+                    type: "POST",
+                    Description: "Cadastra um lote.",
+                    url: process.env.URL_API + 'lotes'
+                }
+            };
+            res.status(200).json(response)
+        }).catch((err) => {
+            res.status(200).json(err)
+        });
 };
