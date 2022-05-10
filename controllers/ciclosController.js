@@ -9,7 +9,10 @@ exports.getCiclos = async (req, res) => {
                     return {
                         cicloId: ciclo.cicloId,
                         dataInicial: ciclo.data_inicial,
+                        dataFinal: ciclo.data_final,
                         semanaInicial: ciclo.semn_inicial,
+                        semanaFinal: ciclo.semn_final,
+                        ativo: ciclo.ativo,
                         request: {
                             Type: "GET",
                             Description: "Retorna dados dos ciclos cadastrados.",
