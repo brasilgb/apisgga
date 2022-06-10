@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       unique: true,
       primaryKey: true,
-      field: "mortalidadeId"
+      field: "mortalidadeId",
+      autoIncrement: true
     },
     aviarioId: {
       type: DataTypes.INTEGER,

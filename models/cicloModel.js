@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       unique: true,
       primaryKey: true,
-      field: "cicloId"
+      field: "cicloId",
+      autoIncrement: true
     },
     data_inicial: DataTypes.DATE,
     data_final: DataTypes.DATE,

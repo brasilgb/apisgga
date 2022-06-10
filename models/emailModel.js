@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       unique: true,
       primaryKey: true,
-      field: "emailId"
+      field: "emailId",
+      autoIncrement: true
     },
     servidor: DataTypes.STRING,
     porta: DataTypes.STRING,

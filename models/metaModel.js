@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       unique: true,
       primaryKey: true,
-      field: "metaId"
+      field: "metaId",
+      autoIncrement: true
     },
     cicloId: {
       type: DataTypes.INTEGER,

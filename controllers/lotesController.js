@@ -56,6 +56,7 @@ exports.postLote = async (req, res) => {
             lote: req.body.lote
         }
     });
+
     if (results) {
         return res.status(409).send({ message: "Lote existente na base de dados!" });
     }
@@ -77,11 +78,13 @@ exports.postLote = async (req, res) => {
         capi_femea,
         capi_macho
     })
-        .then(() => {
+        .then((newLote) => {
             const response = {
                 message: "Lote cadastrado com sucesso!",
                 lote: {
+                    loteid: newLote.loteId,
                     request: {
+                        
                         Type: "GET",
                         Description: "Retorna todos os lotes cadastrados.",
                         url: process.env.URL_API + 'lotes'
