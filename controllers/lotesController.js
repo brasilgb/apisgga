@@ -98,6 +98,13 @@ exports.postLote = async (req, res) => {
 };
 
 exports.updateLote = async (req, res) => {
+    const results = await Lote.findOne({
+        include: 'aviarios' ,
+        where: {
+            loteId: req.body.loteId
+        }
+    });
+
     const {
         lote,
         cicloId,
@@ -124,8 +131,10 @@ exports.updateLote = async (req, res) => {
         }
     )
         .then(() => {
+            
             const response = {
                 message: "Lote editado com sucesso.",
+                aviarios: results.aviarios.length,
                 request: {
                     type: "GET",
                     Description: "Retorna todos os lotes cadastrados.",
