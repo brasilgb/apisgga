@@ -1,7 +1,7 @@
 const { Aviario } = require('../models');
 
 exports.getAviarios = async (req, res) => {
-    await Aviario.findAll()
+    await Aviario.findAll({ include: 'lotes' })
         .then((aviarios) => {
             const response = {
                 aviariosNumber: aviarios.length,
@@ -9,7 +9,11 @@ exports.getAviarios = async (req, res) => {
                     return {
                         aviarioId: aviario.aviarioId,
                         loteId: aviario.loteId,
-                        aviario: aviario.aviario,
+                        lote: aviario.lotes.lote,
+                        aviario: aviario.aviario, 
+                        totl_femea: aviario.totl_femea, 
+                        totl_macho: aviario.totl_macho, 
+                        data_entrada: aviario.data_entrada, 
                         request: {
                             Type: "GET",
                             Description: "Retorna dados dos aviario cadastrados.",

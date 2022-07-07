@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'lote',
         onDelete: 'CASCADE'
       });
+      Aviario.belongsTo(models.Lote, {
+        foreignKey: 'loteId',
+        as: 'lotes',
+        onDelete: 'CASCADE'
+      });
     }
   }
   Aviario.init({

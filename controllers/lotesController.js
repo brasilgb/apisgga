@@ -7,7 +7,7 @@ exports.getLotes = async (req, res) => {
                 lotesNumber: lotes.length,
                 lotes: lotes.map((lote) => {
                     return {
-                        aviariosNumber: lote.aviarios.length,
+                        aviariosNumber: lote.aviarios.lote,
                         loteId: lote.loteId,
                         cicloId: lote.cicloId,
                         lote: lote.lote,
