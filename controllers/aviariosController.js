@@ -10,10 +10,18 @@ exports.getAviarios = async (req, res) => {
                         aviarioId: aviario.aviarioId,
                         loteId: aviario.loteId,
                         lote: aviario.lotes.lote,
-                        aviario: aviario.aviario, 
-                        totl_femea: aviario.totl_femea, 
-                        totl_macho: aviario.totl_macho, 
-                        data_entrada: aviario.data_entrada, 
+                        aviario: aviario.aviario,
+                        data_entrada: aviario.data_entrada,
+                        box1_femea: aviario.box1_femea,
+                        box2_femea: aviario.box2_femea,
+                        box3_femea: aviario.box3_femea,
+                        box4_femea: aviario.box4_femea,
+                        box1_macho: aviario.box1_macho,
+                        box2_macho: aviario.box2_macho,
+                        box3_macho: aviario.box3_macho,
+                        box4_macho: aviario.box4_macho,
+                        totl_femea: aviario.totl_femea,
+                        totl_macho: aviario.totl_macho,
                         request: {
                             Type: "GET",
                             Description: "Retorna dados dos aviario cadastrados.",
@@ -33,7 +41,19 @@ exports.getOneAviario = async (req, res) => {
         .then((aviario) => {
             const response = {
                 aviarioId: aviario.aviarioId,
+                loteId: aviario.loteId,
                 aviario: aviario.aviario,
+                data_entrada: aviario.data_entrada,
+                box1_femea: aviario.box1_femea,
+                box2_femea: aviario.box2_femea,
+                box3_femea: aviario.box3_femea,
+                box4_femea: aviario.box4_femea,
+                box1_macho: aviario.box1_macho,
+                box2_macho: aviario.box2_macho,
+                box3_macho: aviario.box3_macho,
+                box4_macho: aviario.box4_macho,
+                totl_femea: aviario.totl_femea,
+                totl_macho: aviario.totl_macho,
                 request: {
                     Type: "GET",
                     Description: "Retorna todos os aviarios cadastrados.",
@@ -97,6 +117,13 @@ exports.postAviario = async (req, res) => {
 };
 
 exports.updateAviario = async (req, res) => {
+    const results = await Aviario.findOne({
+        include: 'lotes',
+        where: {
+            aviarioId: req.body.aviarioId
+        }
+    });
+
     const {
         cicloId,
         loteId,
@@ -139,6 +166,7 @@ exports.updateAviario = async (req, res) => {
         .then(() => {
             const response = {
                 message: "Aviário editado com sucesso.",
+                lote: results.lotes.lote,
                 request: {
                     type: "GET",
                     Description: "Retorna todos os aviarios cadastrados.",

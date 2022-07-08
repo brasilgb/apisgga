@@ -5,25 +5,23 @@ exports.getLotes = async (req, res) => {
         .then((lote) => {
             const response = {
                 lotesNumber: lote.length,
-                
-                lotes: lote.map((lot) => {
-                    
+                lotes: lote.map((lt) => {
                     return {
-                        aviariosNumber: lote.aviarios.lote,
-                        loteId: lote.loteId,
-                        cicloId: lote.cicloId,
-                        lote: lote.lote,
-                        data_entrada: lote.data_entrada,
-                        femea: lote.femea,
-                        macho: lote.macho,
-                        capi_femea: lote.capi_femea,
-                        capi_macho: lote.capi_macho,
-                        createdAt: lote.createdAt,
-                        updatedAt: lote.updatedAt,
+                        aviariosNumber: lt.aviarios.length,
+                        cicloId: lt.cicloId,
+                        loteId: lt.loteId,
+                        lote: lt.lote,
+                        data_entrada: lt.data_entrada,
+                        femea: lt.femea,
+                        macho: lt.macho,
+                        capi_femea: lt.capi_femea,
+                        capi_macho: lt.capi_macho,
+                        createdAt: lt.createdAt,
+                        updatedAt: lt.updatedAt,
                         request: {
                             Type: "GET",
                             Description: "Retorna dados dos lotes cadastrados.",
-                            url: process.env.URL_API + 'lotes/' + lot.loteId
+                            url: process.env.URL_API + 'lotes/' + lt.loteId
                         }
                     }
                 }),
@@ -86,7 +84,7 @@ exports.postLote = async (req, res) => {
                 lote: {
                     loteid: newLote.loteId,
                     request: {
-                        
+
                         Type: "GET",
                         Description: "Retorna todos os lotes cadastrados.",
                         url: process.env.URL_API + 'lotes'
@@ -101,7 +99,7 @@ exports.postLote = async (req, res) => {
 
 exports.updateLote = async (req, res) => {
     const results = await Lote.findOne({
-        include: 'aviarios' ,
+        include: 'aviarios',
         where: {
             loteId: req.body.loteId
         }
@@ -133,7 +131,7 @@ exports.updateLote = async (req, res) => {
         }
     )
         .then(() => {
-            
+
             const response = {
                 message: "Lote editado com sucesso.",
                 aviarios: results.aviarios.length,
