@@ -2,10 +2,12 @@ const { Lote, Aviario } = require('../models');
 
 exports.getLotes = async (req, res) => {
     await Lote.findAll({ include: 'aviarios' })
-        .then((lotes) => {
+        .then((lote) => {
             const response = {
-                lotesNumber: lotes.length,
-                lotes: lotes.map((lote) => {
+                lotesNumber: lote.length,
+                
+                lotes: lote.map((lot) => {
+                    
                     return {
                         aviariosNumber: lote.aviarios.lote,
                         loteId: lote.loteId,
@@ -21,7 +23,7 @@ exports.getLotes = async (req, res) => {
                         request: {
                             Type: "GET",
                             Description: "Retorna dados dos lotes cadastrados.",
-                            url: process.env.URL_API + 'lotes/' + lote.loteId
+                            url: process.env.URL_API + 'lotes/' + lot.loteId
                         }
                     }
                 }),
