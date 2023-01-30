@@ -1,0 +1,62 @@
+import { DataTypes, Model, Optional } from "sequelize";
+import connection from "../../config/dbConnect";
+
+interface CicloAttributes {
+  idCiclo?: number;
+  dataInicial?: Date;
+  semanaInicial?: number;
+  dataFinal?: Date;
+  semanaFinal?: number;
+  ativo?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface CicloInput extends Optional<CicloAttributes, 'idCiclo'> { }
+export interface CicloOutput extends Required<CicloAttributes> { }
+
+class Ciclo extends Model<CicloAttributes, CicloInput> implements CicloAttributes {
+  public idCiclo?: number;
+  public dataInicial?: Date;
+  public semanaInicial?: number;
+  public dataFinal?: Date;
+  public semanaFinal?: number;
+  public ativo?: boolean;
+  public readonly createdAt?: Date;
+  public readonly updatedAt?: Date;
+}
+
+Ciclo.init({
+  idCiclo: {
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataTypes.BIGINT
+  },
+  dataInicial: {
+    allowNull: false,
+    type: DataTypes.DATE
+  },
+  semanaInicial: {
+    allowNull: false,
+    type: DataTypes.NUMBER
+  },
+  dataFinal: {
+    allowNull: true,
+    type: DataTypes.DATE
+  },
+  semanaFinal: {
+    allowNull: true,
+    type: DataTypes.NUMBER
+  },
+  ativo: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN
+  }
+}, {
+  timestamps: true,
+  sequelize: connection,
+  underscored: false
+});
+
+export default Ciclo;
