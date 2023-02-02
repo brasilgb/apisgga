@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { resolve } from "path";
 
 import Ciclo from "../db/models/Ciclo";
+import Helper from "../helpers/Helper";
 
 const GetCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -13,26 +13,14 @@ const GetCiclo = async (req: Request, res: Response): Promise<Response> => {
             data: ciclos
         });
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
 const GetCicloById = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idCiclo } = req.params;
-        
+
         const ciclo = await Ciclo.findByPk(idCiclo);
 
         if (!ciclo) {
@@ -50,26 +38,14 @@ const GetCicloById = async (req: Request, res: Response): Promise<Response> => {
         });
 
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
 const CreateCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { dataInicial, semanaInicial, ativo } = req.body;
-        
+
         const create = await Ciclo.create({
             "dataInicial": dataInicial,
             "semanaInicial": semanaInicial,
@@ -82,26 +58,14 @@ const CreateCiclo = async (req: Request, res: Response): Promise<Response> => {
             data: create
         })
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
 const UpdateCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idCiclo, dataInicial, semanaInicial, ativo } = req.body;
-        
+
         const ciclo = await Ciclo.findByPk(idCiclo);
 
         if (!ciclo) {
@@ -124,26 +88,14 @@ const UpdateCiclo = async (req: Request, res: Response): Promise<Response> => {
         });
 
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
 const DeleteCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { idCiclo } = req.params;
-        
+        const { idCiclo } = req.body;
+
         const ciclo = await Ciclo.findByPk(idCiclo);
 
         if (!ciclo) {
@@ -162,19 +114,7 @@ const DeleteCiclo = async (req: Request, res: Response): Promise<Response> => {
         });
 
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
