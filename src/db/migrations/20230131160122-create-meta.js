@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Meta', {
+    await queryInterface.createTable('metas', {
       idMeta: {
         allowNull: false,
         autoIncrement: true,
@@ -11,7 +11,7 @@ module.exports = {
       },
       cicloId: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       semana: {
         allowNull: false,
@@ -41,9 +41,19 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    }).then(() => queryInterface.addConstraint('metas', {
+      fields: ['cicloId'],
+      type: 'foreign key',
+      name: 'fk_metas_ciclos',
+      references: {
+        table: 'ciclos',
+        field: 'idCiclo'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'no action',
+    }));
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Meta');
+    await queryInterface.dropTable('metas');
   }
 };

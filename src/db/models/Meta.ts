@@ -1,5 +1,6 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model, ModelStatic, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
+import Ciclo from "./Ciclo";
 
 interface MetaAttributes {
   idMeta?: number;
@@ -28,14 +29,15 @@ class Meta extends Model<MetaAttributes, MetaInput> implements MetaAttributes {
   public producao?: number;
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
-}
+};
 
 Meta.init({
   idMeta: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.BIGINT
+    field: 'idMeta',
+    type: DataTypes.BIGINT,
   },
   cicloId: {
     allowNull: false,
@@ -66,6 +68,8 @@ Meta.init({
     type: DataTypes.NUMBER
   }
 }, {
+  modelName: 'Meta',
+  tableName: 'metas',
   timestamps: true,
   sequelize: connection,
   underscored: false

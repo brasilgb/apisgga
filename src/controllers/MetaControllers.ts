@@ -1,15 +1,16 @@
 import { Request, Response } from "express";
 
 import Meta from "../db/models/Meta";
+// import Ciclo from "../db/models/Ciclo";
 
 const GetMeta = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const metass = await Meta.findAll();
+        const metas = await Meta.findAll();
 
         return res.status(200).send({
             status: 200,
             message: 'ok',
-            data: metass
+            data: metas
         });
     } catch (error: any) {
         if (error != null && error instanceof Error) {

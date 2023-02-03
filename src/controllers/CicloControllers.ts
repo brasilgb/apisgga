@@ -5,12 +5,14 @@ import Helper from "../helpers/Helper";
 
 const GetCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const ciclos = await Ciclo.findAll();
+        const ciclos = await Ciclo.findAll({ include: 'metas' });
 
         return res.status(200).send({
-            status: 200,
-            message: 'ok',
-            data: ciclos
+            
+                status: 200,
+                message: 'ok',
+                data: ciclos
+            
         });
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
@@ -25,9 +27,12 @@ const GetCicloById = async (req: Request, res: Response): Promise<Response> => {
 
         if (!ciclo) {
             return res.status(404).send({
-                status: 404,
-                message: "Data not found",
-                data: null
+
+                    status: 404,
+                    message: "Data not found",
+                    data: null
+                
+
             })
         }
 

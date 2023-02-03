@@ -17,6 +17,4 @@ router.post("/metas", MetaControllers.CreateMeta);
 router.patch("/metas", MetaControllers.UpdateMeta);
 router.delete("/metas", MetaControllers.DeleteMeta);
 
-
-
 export default router;

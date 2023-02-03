@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
+import Meta from "./Meta";
 
 interface CicloAttributes {
   idCiclo?: number;
@@ -31,7 +32,8 @@ Ciclo.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.BIGINT
+    field: 'idCiclo',
+    type: DataTypes.BIGINT,
   },
   dataInicial: {
     allowNull: false,
@@ -54,9 +56,17 @@ Ciclo.init({
     type: DataTypes.BOOLEAN
   }
 }, {
+  modelName: 'Ciclo',
+  tableName: 'ciclos',
   timestamps: true,
   sequelize: connection,
   underscored: false
 });
 
 export default Ciclo;
+
+Ciclo.hasMany(Meta, {
+  sourceKey: 'idCiclo',
+  foreignKey: 'cicloId',
+  as: 'metas'
+})
