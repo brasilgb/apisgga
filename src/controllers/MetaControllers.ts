@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import Meta from "../db/models/Meta";
+import Helper from "../helpers/Helper";
 // import Ciclo from "../db/models/Ciclo";
 
 const GetMeta = async (req: Request, res: Response): Promise<Response> => {
@@ -13,26 +14,14 @@ const GetMeta = async (req: Request, res: Response): Promise<Response> => {
             data: metas
         });
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
 const GetMetaById = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idMeta } = req.params;
-        
+
         const metas = await Meta.findByPk(idMeta);
 
         if (!metas) {
@@ -50,26 +39,14 @@ const GetMetaById = async (req: Request, res: Response): Promise<Response> => {
         });
 
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
 const CreateMeta = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { cicloId, semana, dataInicial } = req.body;
-        
+
         const create = await Meta.create({
             "cicloId": cicloId,
             "semana": semana,
@@ -82,26 +59,14 @@ const CreateMeta = async (req: Request, res: Response): Promise<Response> => {
             data: create
         })
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
 const UpdateMeta = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idMeta, semana, dataInicial } = req.body;
-        
+
         const metas = await Meta.findByPk(idMeta);
 
         if (!metas) {
@@ -123,26 +88,14 @@ const UpdateMeta = async (req: Request, res: Response): Promise<Response> => {
         });
 
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
 const DeleteMeta = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idMeta } = req.body;
-        
+
         const metas = await Meta.findByPk(idMeta);
 
         if (!metas) {
@@ -161,19 +114,7 @@ const DeleteMeta = async (req: Request, res: Response): Promise<Response> => {
         });
 
     } catch (error: any) {
-        if (error != null && error instanceof Error) {
-            return res.status(500).send({
-                status: 500,
-                message: error.message,
-                errors: error
-            })
-        }
-
-        return res.status(500).send({
-            status: 500,
-            message: "Internal Server error",
-            errors: error
-        });
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
