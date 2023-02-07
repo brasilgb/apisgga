@@ -71,6 +71,13 @@ const UpdateCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idCiclo, dataInicial, semanaInicial, ativo } = req.body;
 
+        await Ciclo.update({ ativo: false },
+            {
+                where: {
+                    ativo: true
+                },
+            });
+
         const ciclo = await Ciclo.findByPk(idCiclo);
 
         if (!ciclo) {
@@ -80,7 +87,6 @@ const UpdateCiclo = async (req: Request, res: Response): Promise<Response> => {
                 data: null
             })
         }
-
         ciclo.dataInicial = dataInicial;
         ciclo.semanaInicial = semanaInicial;
         ciclo.ativo = ativo;
@@ -88,7 +94,7 @@ const UpdateCiclo = async (req: Request, res: Response): Promise<Response> => {
         await ciclo.save();
         return res.status(200).send({
             status: 200,
-            message: "ok",
+            message: "Ciclo alterado com sucesso",
             data: ciclo
         });
 
@@ -106,8 +112,8 @@ const DeleteCiclo = async (req: Request, res: Response): Promise<Response> => {
         if (!ciclo) {
             return res.status(404).send({
                 status: 404,
-                message: "Data not found",
-                data: null
+                message: "Algo deu errado",
+                data: 'null'
             })
         }
 
