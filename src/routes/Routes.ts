@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get("/ciclos", CicloControllers.GetCiclo);
 router.get("/ciclos/:idCiclo", CicloControllers.GetCicloById);
+router.get("/date/:date", CicloControllers.GetCicloDate);
 router.post("/ciclos", CicloControllers.CreateCiclo);
 router.patch("/ciclos", CicloControllers.UpdateCiclo);
 router.delete("/ciclos", CicloControllers.DeleteCiclo);

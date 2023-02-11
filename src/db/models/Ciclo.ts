@@ -37,7 +37,7 @@ Ciclo.init({
   },
   dataInicial: {
     allowNull: false,
-    type: DataTypes.DATE
+    type: DataTypes.DATEONLY
   },
   semanaInicial: {
     allowNull: false,
@@ -45,7 +45,7 @@ Ciclo.init({
   },
   dataFinal: {
     allowNull: true,
-    type: DataTypes.DATE
+    type: DataTypes.DATEONLY
   },
   semanaFinal: {
     allowNull: true,

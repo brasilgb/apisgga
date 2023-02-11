@@ -11,7 +11,7 @@ module.exports = {
       },
       dataInicial: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       semanaInicial: {
         allowNull: false,
@@ -19,7 +19,7 @@ module.exports = {
       },
       dataFinal: {
         allowNull: true,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       semanaFinal: {
         allowNull: true,
