@@ -5,14 +5,12 @@ import Helper from "../helpers/Helper";
 
 const GetCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const ciclos = await Ciclo.findAll({ include: 'metas' });
+        const ciclos = await Ciclo.findAll({ include: ['metas'] });
 
         return res.status(200).send({
-            
-                status: 200,
-                message: 'ok',
-                data: ciclos
-            
+            status: 200,
+            message: 'ok',
+            data: ciclos
         });
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
@@ -23,19 +21,15 @@ const GetCicloById = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idCiclo } = req.params;
 
-        const ciclo = await Ciclo.findByPk(idCiclo);
+        const ciclo = await Ciclo.findByPk(idCiclo,{ include: 'metas' });
 
         if (!ciclo) {
             return res.status(404).send({
-
-                    status: 404,
-                    message: "Data not found",
-                    data: null
-                
-
+                status: 404,
+                message: "Data not found",
+                data: null
             })
         }
-
         return res.status(200).send({
             status: 200,
             message: "Ok",
@@ -54,23 +48,22 @@ const GetCicloDate = async (req: Request, res: Response): Promise<Response> => {
         const ciclo = await Ciclo.findAll({
             where: {
                 dataInicial: date
-            }
+            },
+            include: 'metas'
         });
 
         if (!ciclo) {
             return res.status(404).send({
-                    status: 404,
-                    message: "Não foram encontrados dados para esta data",
-                    data: null
+                status: 404,
+                message: "Não foram encontrados dados para esta data",
+                data: null
             })
         }
-
         return res.status(200).send({
             status: 200,
             message: "Ok",
             data: ciclo
         });
-
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
@@ -158,4 +151,4 @@ const DeleteCiclo = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
-export default { GetCiclo, GetCicloById, GetCicloDate,CreateCiclo, UpdateCiclo, DeleteCiclo };
+export default { GetCiclo, GetCicloById, GetCicloDate, CreateCiclo, UpdateCiclo, DeleteCiclo };
