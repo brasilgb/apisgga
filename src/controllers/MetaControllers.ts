@@ -47,10 +47,15 @@ const CreateMeta = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { cicloId, semana, dataInicial } = req.body;
 
-        const create = await Meta.create({
-            "cicloId": cicloId,
-            "semana": semana,
-            "dataInicial": dataInicial,
+        const create = await Meta.findOrCreate({
+            where: {
+                semana: semana,
+            },
+            defaults: {
+                cicloId: cicloId,
+                semana: semana,
+                dataInicial: dataInicial,
+            }
         });
 
         return res.status(201).send({
@@ -58,6 +63,7 @@ const CreateMeta = async (req: Request, res: Response): Promise<Response> => {
             message: 'Created with success',
             data: create
         })
+        
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }

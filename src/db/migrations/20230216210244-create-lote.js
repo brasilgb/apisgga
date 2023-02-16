@@ -2,35 +2,32 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('metas', {
-      idMeta: {
+    await queryInterface.createTable('lotes', {
+      idLote: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.BIGINT
       },
       cicloId: {
-        allowNull: false,
-        type: Sequelize.BIGINT
-      },
-      semana: {
-        allowNull: false,
         type: Sequelize.INTEGER
       },
-      dataInicial: {
-        allowNull: false,
+      lote: {
+        type: Sequelize.STRING
+      },
+      dataEntrada: {
         type: Sequelize.DATEONLY
       },
-      dataFinal: {
-        type: Sequelize.DATEONLY
-      },
-      eclosao: {
+      femeas: {
         type: Sequelize.INTEGER
       },
-      fertilidade: {
+      macho: {
         type: Sequelize.INTEGER
       },
-      producao: {
+      femeaCapitalizada: {
+        type: Sequelize.INTEGER
+      },
+      machoCapitalizado: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -41,19 +38,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    }).then(() => queryInterface.addConstraint('metas', {
-      fields: ['cicloId'],
-      type: 'foreign key',
-      name: 'fk_metas_ciclos',
-      references: {
-        table: 'ciclos',
-        field: 'idCiclo'
-      },
-      onDelete: 'cascade',
-      onUpdate: 'no action',
-    }));
+    });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('metas');
+    await queryInterface.dropTable('lotes');
   }
 };

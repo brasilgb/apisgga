@@ -49,11 +49,11 @@ Meta.init({
   },
   dataInicial: {
     allowNull: false,
-    type: DataTypes.DATE
+    type: DataTypes.DATEONLY
   },
   dataFinal: {
     allowNull: true,
-    type: DataTypes.DATE
+    type: DataTypes.DATEONLY
   },
   eclosao: {
     allowNull: true,

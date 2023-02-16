@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import Ciclo from "../db/models/Ciclo";
+import Meta from "../db/models/Meta";
 import Helper from "../helpers/Helper";
 
 const GetCiclo = async (req: Request, res: Response): Promise<Response> => {
@@ -21,7 +22,7 @@ const GetCicloById = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idCiclo } = req.params;
 
-        const ciclo = await Ciclo.findByPk(idCiclo,{ include: 'metas' });
+        const ciclo = await Ciclo.findByPk(idCiclo, { include: 'metas' });
 
         if (!ciclo) {
             return res.status(404).send({
@@ -72,16 +73,26 @@ const GetCicloDate = async (req: Request, res: Response): Promise<Response> => {
 const CreateCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { dataInicial, semanaInicial, ativo } = req.body;
-
+        await Ciclo.update({ ativo: false },
+            {
+                where: {
+                    ativo: true
+                },
+            });
         const create = await Ciclo.create({
             "dataInicial": dataInicial,
             "semanaInicial": semanaInicial,
             "ativo": ativo
         });
+        await Meta.create({
+            "cicloId": create.idCiclo,
+            "semana": semanaInicial,
+            "dataInicial": dataInicial,
+        });
 
         return res.status(201).send({
             status: 201,
-            message: 'Created with success',
+            message: 'Ciclo criado com sucesso',
             data: create
         })
     } catch (error: any) {
@@ -91,9 +102,9 @@ const CreateCiclo = async (req: Request, res: Response): Promise<Response> => {
 
 const UpdateCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { idCiclo, dataInicial, semanaInicial, ativo } = req.body;
+        const { idCiclo, dataInicial, semanaInicial, dataFinal, semanaFinal, ativo } = req.body;
 
-        await Ciclo.update({ ativo: false },
+        await Ciclo.update({ ativo: false, dataFinal, semanaFinal },
             {
                 where: {
                     ativo: true
@@ -105,12 +116,14 @@ const UpdateCiclo = async (req: Request, res: Response): Promise<Response> => {
         if (!ciclo) {
             return res.status(404).send({
                 status: 404,
-                message: "Data not found",
+                message: "Dados não encontrados para esta data",
                 data: null
             })
         }
         ciclo.dataInicial = dataInicial;
         ciclo.semanaInicial = semanaInicial;
+        ciclo.dataFinal = ativo === true ? null : dataFinal;
+        ciclo.semanaFinal = ativo === true ? null : semanaFinal;
         ciclo.ativo = ativo;
 
         await ciclo.save();
@@ -142,7 +155,7 @@ const DeleteCiclo = async (req: Request, res: Response): Promise<Response> => {
         await ciclo.destroy();
         return res.status(200).send({
             status: 200,
-            message: "Ciclo deleted with success",
+            message: "Ciclo deletado com sucesso",
             data: ciclo
         });
 
