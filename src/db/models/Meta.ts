@@ -1,6 +1,5 @@
 import { DataTypes, Model, ModelStatic, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
-import Ciclo from "./Ciclo";
 
 interface MetaAttributes {
   idMeta?: number;

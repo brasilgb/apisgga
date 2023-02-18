@@ -10,24 +10,31 @@ module.exports = {
         type: Sequelize.BIGINT
       },
       cicloId: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.BIGINT
       },
       lote: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       dataEntrada: {
+        allowNull: false,
         type: Sequelize.DATEONLY
       },
       femeas: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       macho: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       femeaCapitalizada: {
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       machoCapitalizado: {
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       createdAt: {
