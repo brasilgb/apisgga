@@ -9,6 +9,7 @@ interface LoteAttributes {
   dataEntrada?: Date;
   femea?: Number;
   macho?: Number;
+  dataCapitalizacao?: Date;
   femeaCapitalizada?: Number;
   machoCapitalizado?: Number;
   createdAt?: Date;
@@ -80,5 +81,5 @@ export default Lote;
 Lote.hasMany(Aviario, {
   sourceKey: 'idLote',
   foreignKey: 'loteId',
-  as: 'metas'
+  as: 'aviarios'
 })

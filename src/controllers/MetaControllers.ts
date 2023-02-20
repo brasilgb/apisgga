@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 
 import Meta from "../db/models/Meta";
 import Helper from "../helpers/Helper";
-// import Ciclo from "../db/models/Ciclo";
 
 const GetMeta = async (req: Request, res: Response): Promise<Response> => {
     try {

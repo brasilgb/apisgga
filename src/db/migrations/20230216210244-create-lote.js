@@ -19,15 +19,19 @@ module.exports = {
       },
       dataEntrada: {
         allowNull: false,
-        type: Sequelize.DATEONLY
+        type: Sequelize.DATE
       },
-      femeas: {
+      femea: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
       macho: {
         allowNull: false,
         type: Sequelize.INTEGER
+      },
+      dataCapitalizacao:{
+        allowNull: true,
+        type: Sequelize.DATE
       },
       femeaCapitalizada: {
         allowNull: true,
