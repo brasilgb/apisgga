@@ -6,7 +6,7 @@ import Helper from "../helpers/Helper";
 
 const GetCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const ciclos = await Ciclo.findAll({ include: ['metas'] });
+        const ciclos = await Ciclo.findAll({ include: ['metas', 'lotes'] });
 
         return res.status(200).send({
             status: 200,
@@ -22,7 +22,7 @@ const GetCicloById = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idCiclo } = req.params;
 
-        const ciclo = await Ciclo.findByPk(idCiclo, { include: 'metas' });
+        const ciclo = await Ciclo.findByPk(idCiclo, { include: ['metas', 'lotes'] });
 
         if (!ciclo) {
             return res.status(404).send({

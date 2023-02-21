@@ -49,7 +49,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    }).then(() => queryInterface.addConstraint('lotes', {
+      fields: ['cicloId'],
+      type: 'foreign key',
+      name: 'fk_lotes_ciclos',
+      references: {
+        table: 'ciclos',
+        field: 'idCiclo'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'no action',
+    }));;
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('lotes');

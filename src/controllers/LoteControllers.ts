@@ -1,16 +1,29 @@
 import { Request, Response } from "express";
+import Ciclo from "../db/models/Ciclo";
 
 import Lote from "../db/models/Lote";
 import Helper from "../helpers/Helper";
 
 const GetLote = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const lotes = await Lote.findAll({ include: ['aviarios'] });
+        const ciclos = await Ciclo.findAll({
+            where: {
+                ativo: true
+            }
+        });
+
+        const lotes = await Lote.findAll({
+            where: {
+                cicloId: ciclos[0]?.idCiclo?ciclos[0]?.idCiclo:0
+            },
+            include: ['aviarios']
+        });
 
         return res.status(200).send({
             status: 200,
             message: 'ok',
-            data: lotes
+            ciclos: ciclos.length > 0 ? false : true,
+            data: lotes,
         });
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
@@ -33,7 +46,7 @@ const GetLoteById = async (req: Request, res: Response): Promise<Response> => {
         return res.status(200).send({
             status: 200,
             message: "Ok",
-            data: lote
+            lote: lote
         });
 
     } catch (error: any) {

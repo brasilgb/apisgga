@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
+import Lote from "./Lote";
 import Meta from "./Meta";
 
 interface CicloAttributes {
@@ -69,4 +70,10 @@ Ciclo.hasMany(Meta, {
   sourceKey: 'idCiclo',
   foreignKey: 'cicloId',
   as: 'metas'
+});
+
+Ciclo.hasMany(Lote, {
+  sourceKey: 'idCiclo',
+  foreignKey: 'cicloId',
+  as: 'lotes'
 })

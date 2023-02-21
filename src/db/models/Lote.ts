@@ -26,6 +26,7 @@ class Lote extends Model<LoteAttributes, LoteInput> implements LoteAttributes {
   public dataEntrada?: Date;
   public femea?: number;
   public macho?: number;
+  public dataCapitalizacao?: Date;
   public femeaCapitalizada?: number;
   public machoCapitalizado?: number;
   public readonly createdAt?: Date;
@@ -50,7 +51,7 @@ Lote.init({
   },
   dataEntrada: {
     allowNull: false,
-    type: DataTypes.DATEONLY
+    type: DataTypes.DATE
   },
   femea: {
     allowNull: false,
@@ -59,6 +60,10 @@ Lote.init({
   macho: {
     allowNull: false,
     type: DataTypes.INTEGER
+  },
+  dataCapitalizacao: {
+    allowNull: true,
+    type: DataTypes.DATE
   },
   femeaCapitalizada: {
     allowNull: true,
