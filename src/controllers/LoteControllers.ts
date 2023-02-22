@@ -64,7 +64,7 @@ const GetLoteExists = async (req: Request, res: Response): Promise<Response> => 
             },
             include: 'aviarios'
         });
-
+        
         return res.status(200).send({
             lote: lotes.length > 0 ? true : false,
         });
