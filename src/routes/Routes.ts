@@ -22,7 +22,7 @@ router.delete("/metas", MetaControllers.DeleteMeta);
 
 router.get("/lotes", LoteControllers.GetLote);
 router.get("/lotes/:idLote", LoteControllers.GetLoteById);
-router.get("/loteExist/:lote", LoteControllers.GetLoteExists);
+router.get("/loteExist/:idLote/:lote", LoteControllers.GetLoteExists);
 router.post("/lotes", LoteControllers.CreateLote);
 router.patch("/lotes", LoteControllers.UpdateLote);
 router.delete("/lotes", LoteControllers.DeleteLote);

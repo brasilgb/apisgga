@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Op } from "sequelize";
 import Ciclo from "../db/models/Ciclo";
 
 import Lote from "../db/models/Lote";
@@ -14,7 +15,7 @@ const GetLote = async (req: Request, res: Response): Promise<Response> => {
 
         const lotes = await Lote.findAll({
             where: {
-                cicloId: ciclos[0]?.idCiclo?ciclos[0]?.idCiclo:0
+                cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
             },
             include: ['aviarios']
         });
@@ -56,17 +57,24 @@ const GetLoteById = async (req: Request, res: Response): Promise<Response> => {
 
 const GetLoteExists = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { lote } = req.params;
+        const { idLote, lote, } = req.params;
 
-        const lotes = await Lote.findAll({
-            where: {
-                lote: lote
-            },
-            include: 'aviarios'
-        });
-        
+            const lotes = await Lote.findAll({
+                where: {
+                    idLote:{
+                        [Op.eq]: idLote
+                    },
+                    lote:{
+                        [Op.eq]: lote
+                    }
+                  },
+                include: 'aviarios'
+            });
+
+            console.log(lotes.length);
+
         return res.status(200).send({
-            lote: lotes.length > 0 ? true : false,
+            lote: lotes.length
         });
 
     } catch (error: any) {
