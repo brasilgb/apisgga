@@ -55,33 +55,6 @@ const GetLoteById = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
-const GetLoteExists = async (req: Request, res: Response): Promise<Response> => {
-    try {
-        const { idLote, lote, } = req.params;
-
-            const lotes = await Lote.findAll({
-                where: {
-                    idLote:{
-                        [Op.eq]: idLote
-                    },
-                    lote:{
-                        [Op.eq]: lote
-                    }
-                  },
-                include: 'aviarios'
-            });
-
-            console.log(lotes.length);
-
-        return res.status(200).send({
-            lote: lotes.length
-        });
-
-    } catch (error: any) {
-        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
-    }
-};
-
 const CreateLote = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { cicloId, lote, dataEntrada, femea, macho, dataCapitalizacao, femeaCapitalizada, machoCapitalizado } = req.body;
@@ -166,4 +139,4 @@ const DeleteLote = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
-export default { GetLote, GetLoteById, GetLoteExists, CreateLote, UpdateLote, DeleteLote };
+export default { GetLote, GetLoteById, CreateLote, UpdateLote, DeleteLote };
