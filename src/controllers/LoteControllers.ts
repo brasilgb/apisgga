@@ -82,7 +82,7 @@ const CreateLote = async (req: Request, res: Response): Promise<Response> => {
 
 const UpdateLote = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { idLote, cicloId, lote, dataEntrada, femea, macho, femeaCapitalizada, machoCapitalizado } = req.body;
+        const { idLote, lote, dataEntrada, femea, macho, femeaCapitalizada, machoCapitalizado, dataCapitalizacao } = req.body;
 
         const lotes = await Lote.findByPk(idLote);
 
@@ -93,15 +93,15 @@ const UpdateLote = async (req: Request, res: Response): Promise<Response> => {
                 data: null
             })
         }
-        lote.cicloId = cicloId;
-        lote.lote = lote;
-        lote.dataEntrada = dataEntrada;
-        lote.femea = femea;
-        lote.macho = macho;
-        lote.femeaCapitalizada = femeaCapitalizada;
-        lote.machoCapitalizado = machoCapitalizado;
+        lotes.lote = lote;
+        lotes.dataEntrada = dataEntrada;
+        lotes.femea = femea;
+        lotes.macho = macho;
+        lotes.dataCapitalizacao = dataCapitalizacao;
+        lotes.femeaCapitalizada = femeaCapitalizada;
+        lotes.machoCapitalizado = machoCapitalizado;
 
-        await lote.save();
+        await lotes.save();
         return res.status(200).send({
             status: 200,
             message: "Lote alterado com sucesso",
