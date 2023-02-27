@@ -22,7 +22,7 @@ const GetLote = async (req: Request, res: Response): Promise<Response> => {
 
         return res.status(200).send({
             status: 200,
-            message: 'ok',
+            message: 'Ok',
             ciclos: ciclos.length > 0 ? false : true,
             data: lotes,
         });
@@ -35,9 +35,9 @@ const GetLoteById = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { idLote } = req.params;
 
-        const lote = await Lote.findByPk(idLote, { include: 'aviarios' });
+        const lotes = await Lote.findByPk(idLote, { include: 'aviarios' });
 
-        if (!lote) {
+        if (!lotes) {
             return res.status(404).send({
                 status: 404,
                 message: "Data not found",
@@ -47,7 +47,37 @@ const GetLoteById = async (req: Request, res: Response): Promise<Response> => {
         return res.status(200).send({
             status: 200,
             message: "Ok",
-            lote: lote
+            data: lotes
+        });
+
+    } catch (error: any) {
+        return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
+    }
+};
+
+const GetLoteSearch = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const { lote } = req.body;
+
+        const lotes = await Lote.findAll(
+            {
+                where: {
+                    lote: lote
+                },
+                include: 'aviarios'
+            });
+
+        if (!lotes) {
+            return res.status(404).send({
+                status: 404,
+                message: "Data not found",
+                data: null
+            })
+        }
+        return res.status(200).send({
+            status: 200,
+            message: "Ok",
+            data: lotes
         });
 
     } catch (error: any) {
@@ -61,7 +91,7 @@ const CreateLote = async (req: Request, res: Response): Promise<Response> => {
 
         const create = await Lote.create({
             cicloId: cicloId,
-            lote: lote,
+            lote: lote.toUpperCase(),
             dataEntrada: dataEntrada,
             femea: femea,
             macho: macho,
@@ -93,7 +123,7 @@ const UpdateLote = async (req: Request, res: Response): Promise<Response> => {
                 data: null
             })
         }
-        lotes.lote = lote;
+        lotes.lote = lote.toUpperCase();
         lotes.dataEntrada = dataEntrada;
         lotes.femea = femea;
         lotes.macho = macho;
@@ -139,4 +169,4 @@ const DeleteLote = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
-export default { GetLote, GetLoteById, CreateLote, UpdateLote, DeleteLote };
+export default { GetLote, GetLoteById, GetLoteSearch, CreateLote, UpdateLote, DeleteLote };
