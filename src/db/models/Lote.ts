@@ -88,3 +88,8 @@ Lote.hasMany(Aviario, {
   foreignKey: 'loteId',
   as: 'aviarios'
 })
+
+Aviario.belongsTo(Lote, {
+  foreignKey: 'loteId',
+  as: 'lotes'
+})

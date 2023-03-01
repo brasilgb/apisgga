@@ -53,14 +53,6 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER
       },
-      totalFemea: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      totalMacho: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

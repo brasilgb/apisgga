@@ -22,13 +22,14 @@ router.delete("/metas", MetaControllers.DeleteMeta);
 
 router.get("/lotes", LoteControllers.GetLote);
 router.get("/lotes/:idLote", LoteControllers.GetLoteById);
-router.post("/search", LoteControllers.GetLoteSearch);
+router.post("/searchlote", LoteControllers.GetLoteSearch);
 router.post("/lotes", LoteControllers.CreateLote);
 router.patch("/lotes", LoteControllers.UpdateLote);
 router.delete("/lotes", LoteControllers.DeleteLote);
 
 router.get("/aviarios", AviarioControllers.GetAviario);
 router.get("/aviarios/:idAviario", AviarioControllers.GetAviarioById);
+router.post("/searchaviario", AviarioControllers.GetAviarioSearch);
 router.post("/aviarios", AviarioControllers.CreateAviario);
 router.patch("/aviarios", AviarioControllers.UpdateAviario);
 router.delete("/aviarios", AviarioControllers.DeleteAviario);
