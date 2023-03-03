@@ -9,6 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT
       },
+      cicloId: {
+        allowNull: false,
+        type: Sequelize.BIGINT
+      },
       loteId: {
         allowNull: false,
         type: Sequelize.BIGINT

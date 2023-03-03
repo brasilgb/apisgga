@@ -59,13 +59,19 @@ const GetLoteSearch = async (req: Request, res: Response): Promise<Response> => 
     try {
         const { lote } = req.body;
 
-        const lotes = await Lote.findAll(
-            {
-                where: {
-                    lote: lote
-                },
-                include: 'aviarios'
-            });
+        const ciclos = await Ciclo.findAll({
+            where: {
+                ativo: true
+            }
+        });
+
+        const lotes = await Lote.findAll({
+            where: {
+                lote: lote,
+                cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
+            },
+            include: ['aviarios']
+        });
 
         if (!lotes) {
             return res.status(404).send({

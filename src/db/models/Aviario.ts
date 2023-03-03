@@ -4,6 +4,7 @@ import Lote from "./Lote";
 
 interface AviarioAttributes {
   idAviario?: number;
+  cicloId?: number
   loteId?: number
   aviario?: string;
   dataEntrada?: Date;
@@ -24,6 +25,7 @@ export interface AviarioOutput extends Required<AviarioAttributes> { }
 
 class Aviario extends Model<AviarioAttributes, AviarioInput> implements AviarioAttributes {
   public idAviario?: number;
+  public cicloId?: number
   public loteId?: number
   public aviario?: string;
   public dataEntrada?: Date;
@@ -46,6 +48,10 @@ Aviario.init({
     primaryKey: true,
     field: 'idAviario',
     type: DataTypes.BIGINT,
+  },
+  cicloId: {
+    allowNull: true,
+    type: DataTypes.BIGINT
   },
   loteId: {
     allowNull: true,

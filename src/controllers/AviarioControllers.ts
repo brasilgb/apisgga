@@ -1,20 +1,34 @@
 import { Request, Response } from "express";
 
 import Aviario from "../db/models/Aviario";
-import Lote from "../db/models/Lote";
+import Ciclo from "../db/models/Ciclo";
 import Helper from "../helpers/Helper";
 
 const GetAviario = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const aviarios = await Aviario.findAll({ include: ['lotes'] });
+
+        const ciclos = await Ciclo.findAll({
+            where: {
+                ativo: true
+            }
+        });
+
+        const aviarios = await Aviario.findAll({
+            where: {
+                cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
+            },
+            include: ['lotes']
+        });
 
         return res.status(200).send({
             status: 200,
             message: 'ok',
+            ciclos: ciclos.length > 0 ? false : true,
             data: aviarios
                 .map((av: any, iav: any) => (
                     {
                         idAviario: av.idAviario,
+                        cicloId: av.cicloId,
                         loteId: av.loteId,
                         lote: av.lotes.lote,
                         aviario: av.aviario,
@@ -57,6 +71,7 @@ const GetAviarioById = async (req: Request, res: Response): Promise<Response> =>
             message: "Ok",
             data: {
                 idAviario: aviarios.idAviario,
+                cicloId: aviarios.cicloId,
                 loteId: aviarios.loteId,
                 aviario: aviarios.aviario,
                 dataEntrada: aviarios.dataEntrada,
@@ -82,9 +97,16 @@ const GetAviarioSearch = async (req: Request, res: Response): Promise<Response> 
     try {
         const { lote } = req.body;
 
+        const ciclos = await Ciclo.findAll({
+            where: {
+                ativo: true
+            }
+        });
+
         const aviarios = await Aviario.findAll({
             where: {
-                loteId: lote
+                loteId: lote,
+                cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
             },
             include: 'lotes'
         });
@@ -103,6 +125,7 @@ const GetAviarioSearch = async (req: Request, res: Response): Promise<Response> 
             data: aviarios.map((av: any, iav: any) => (
                 {
                     idAviario: av.idAviario,
+                    cicloId: av.cicloId,
                     loteId: av.loteId,
                     lote: av.lotes.lote,
                     aviario: av.aviario,
@@ -129,9 +152,10 @@ const GetAviarioSearch = async (req: Request, res: Response): Promise<Response> 
 
 const CreateAviario = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { loteId, aviario, dataEntrada, box1Femea, box2Femea, box3Femea, box4Femea, box1Macho, box2Macho, box3Macho, box4Macho } = req.body;
+        const { cicloId, loteId, aviario, dataEntrada, box1Femea, box2Femea, box3Femea, box4Femea, box1Macho, box2Macho, box3Macho, box4Macho } = req.body;
 
         const create = await Aviario.create({
+            cicloId: cicloId,
             loteId: loteId,
             aviario: aviario,
             dataEntrada: dataEntrada,
@@ -158,7 +182,7 @@ const CreateAviario = async (req: Request, res: Response): Promise<Response> => 
 
 const UpdateAviario = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { idAviario, loteId, aviario, dataEntrada, box1Femea, box2Femea, box3Femea, box4Femea, box1Macho, box2Macho, box3Macho, box4Macho } = req.body;
+        const { idAviario, cicloId, loteId, aviario, dataEntrada, box1Femea, box2Femea, box3Femea, box4Femea, box1Macho, box2Macho, box3Macho, box4Macho } = req.body;
 
         const aviarios = await Aviario.findByPk(idAviario);
 
@@ -170,7 +194,8 @@ const UpdateAviario = async (req: Request, res: Response): Promise<Response> => 
             })
         }
 
-        aviarios.loteId = loteId,
+        aviarios.cicloId = cicloId,
+            aviarios.loteId = loteId,
             aviarios.aviario = aviario,
             aviarios.dataEntrada = dataEntrada,
             aviarios.box1Femea = box1Femea,
