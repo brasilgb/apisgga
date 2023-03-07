@@ -75,7 +75,7 @@ module.exports = {
       },
       onDelete: 'cascade',
       onUpdate: 'no action',
-    }));;
+    }));
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('aviarios');

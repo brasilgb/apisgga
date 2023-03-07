@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
 import Aviario from "./Aviario";
+import Coleta from "./Coleta";
 
 interface LoteAttributes {
   idLote?: Number;
@@ -90,6 +91,17 @@ Lote.hasMany(Aviario, {
 })
 
 Aviario.belongsTo(Lote, {
+  foreignKey: 'loteId',
+  as: 'lotes'
+})
+
+Lote.hasMany(Coleta, {
+  sourceKey: 'idLote',
+  foreignKey: 'loteId',
+  as: 'coletas'
+})
+
+Coleta.belongsTo(Lote, {
   foreignKey: 'loteId',
   as: 'lotes'
 })

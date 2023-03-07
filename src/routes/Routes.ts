@@ -2,6 +2,7 @@ import express from "express";
 import AviarioControllers from "../controllers/AviarioControllers";
 
 import CicloControllers from "../controllers/CicloControllers";
+import ColetaControllers from "../controllers/ColetaControllers";
 import LoteControllers from "../controllers/LoteControllers";
 import MetaControllers from "../controllers/MetaControllers";
 
@@ -33,5 +34,12 @@ router.post("/searchaviario", AviarioControllers.GetAviarioSearch);
 router.post("/aviarios", AviarioControllers.CreateAviario);
 router.patch("/aviarios", AviarioControllers.UpdateAviario);
 router.delete("/aviarios", AviarioControllers.DeleteAviario);
+
+router.get("/coletas", ColetaControllers.GetColeta);
+router.get("/coletas/:idColeta", ColetaControllers.GetColetaById);
+router.get("/date/:date", ColetaControllers.GetColetaDate);
+router.post("/coletas", ColetaControllers.CreateColeta);
+router.patch("/coletas", ColetaControllers.UpdateColeta);
+router.delete("/coletas", ColetaControllers.DeleteColeta);
 
 export default router;

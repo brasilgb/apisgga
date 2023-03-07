@@ -1,5 +1,6 @@
 import { DataTypes, Model, ModelStatic, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
+import Coleta from "./Coleta";
 import Lote from "./Lote";
 
 interface AviarioAttributes {
@@ -107,3 +108,13 @@ Aviario.init({
 
 export default Aviario;
 
+Aviario.hasMany(Coleta, {
+  sourceKey: 'idAviario',
+  foreignKey: 'aviarioId',
+  as: 'coletas'
+})
+
+Coleta.belongsTo(Aviario, {
+  foreignKey: 'aviarioId',
+  as: 'aviarios'
+})
