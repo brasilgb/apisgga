@@ -29,6 +29,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      dataSearch: {
+        allowNull: false,
+        type: Sequelize.DATEONLY
+      },
       limposNinho: {
         allowNull: true,
         type: Sequelize.INTEGER

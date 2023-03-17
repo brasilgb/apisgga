@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import Ciclo from "../db/models/Ciclo";
 
 import Coleta from "../db/models/Coleta";
 import Helper from "../helpers/Helper";
@@ -47,9 +48,9 @@ const GetColetaDate = async (req: Request, res: Response): Promise<Response> => 
 
         const coleta = await Coleta.findAll({
             where: {
-                dataColeta: date
+                dataSearch: date
             },
-            include: 'aviarios'
+            include: ['aviarios', 'lotes']
         });
 
         if (!coleta) {
@@ -71,62 +72,70 @@ const GetColetaDate = async (req: Request, res: Response): Promise<Response> => 
 
 const CreateColeta = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { 
-            cicloId,
-            loteId,
-            aviarioId,
-            coleta,
-            dataColeta,
-            limposNinho,
-            sujosNinho,
-            ovosCama,
-            duasGemas,
-            refugos,
-            pequenos,
-            cascaFina,
-            frios,
-            esmagadosQuebrados,
-            camaNaoIncubaveis,
-            deformados,
-            sujosDeCama,
-            trincados,
-            eliminados,
-            incubaveisBons,
-            incubaveis,
-            comerciais,
-            posturaDia
-         } = req.body;
+        const ciclos = await Ciclo.findAll({
+            where: {
+                ativo: true
+            }
+        });
 
+        const { 
+            values
+            // cicloId,
+            // loteId,
+            // aviarioId,
+            // coleta,
+            // dataColeta,
+            // limposNinho,
+            // sujosNinho,
+            // ovosCama,
+            // duasGemas,
+            // refugos,
+            // pequenos,
+            // cascaFina,
+            // frios,
+            // esmagadosQuebrados,
+            // camaNaoIncubaveis,
+            // deformados,
+            // sujosDeCama,
+            // trincados,
+            // eliminados,
+            // incubaveisBons,
+            // incubaveis,
+            // comerciais,
+            // posturaDia
+         } = req.body;
+         
         const create = await Coleta.create({
-            "cicloId":              cicloId,
-            "loteId":               loteId,
-            "aviarioId":            aviarioId,
-            "coleta":               coleta,
-            "dataColeta":           dataColeta,
-            "limposNinho":          limposNinho,
-            "sujosNinho":           sujosNinho,
-            "ovosCama":             ovosCama,
-            "duasGemas":            duasGemas,
-            "refugos":              refugos,
-            "pequenos":             pequenos,
-            "cascaFina":            cascaFina,
-            "frios":                frios,
-            "esmagadosQuebrados":   esmagadosQuebrados,
-            "camaNaoIncubaveis":    camaNaoIncubaveis,
-            "deformados":           deformados,
-            "sujosDeCama":          sujosDeCama,
-            "trincados":            trincados,
-            "eliminados":           eliminados,
-            "incubaveisBons":       incubaveisBons,
-            "incubaveis":           incubaveis,
-            "comerciais":           comerciais,
-            "posturaDia":           posturaDia
+            "cicloId":              ciclos[0].idCiclo,
+            "loteId":               values.loteId,
+            "aviarioId":            values.aviarioId,
+            "coleta":               values.coleta,
+            "dataColeta":           values.dataColeta,
+            "dataSearch":           values.dataColeta,
+            "limposNinho":          values.limposNinho,
+            "sujosNinho":           values.sujosNinho,
+            "ovosCama":             values.ovosCama,
+            "duasGemas":            values.duasGemas,
+            "refugos":              values.refugos,
+            "pequenos":             values.pequenos,
+            "cascaFina":            values.cascaFina,
+            "frios":                values.frios,
+            "esmagadosQuebrados":   values.esmagadosQuebrados,
+            "camaNaoIncubaveis":    values.camaNaoIncubaveis,
+            "deformados":           values.deformados,
+            "sujosDeCama":          values.sujosDeCama,
+            "trincados":            values.trincados,
+            "eliminados":           values.eliminados,
+            "incubaveisBons":       values.incubaveisBons,
+            "incubaveis":           values.incubaveis,
+            "comerciais":           values.comerciais,
+            "posturaDia":           values.posturaDia
         });
 
 
         return res.status(201).send({
             status: 201,
-            message: 'Coleta criado com sucesso',
+            message: 'Coleta criada com sucesso',
             data: create
         })
     } catch (error: any) {

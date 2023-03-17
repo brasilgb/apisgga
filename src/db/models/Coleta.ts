@@ -8,6 +8,7 @@ interface ColetaAttributes {
   aviarioId?: number;
   coleta?: number;
   dataColeta?: Date;
+  dataSearch?: Date;
   limposNinho?: number;
   sujosNinho?: number;
   ovosCama?: number;
@@ -40,6 +41,7 @@ class Coleta extends Model<ColetaAttributes, ColetaInput> implements ColetaAttri
   public aviarioId?: number;
   public coleta?: number;
   public dataColeta?: Date;
+  public dataSearch?: Date;
   public limposNinho?: number;
   public sujosNinho?: number;
   public ovosCama?: number;
@@ -88,6 +90,10 @@ Coleta.init({
   dataColeta: {
     allowNull: false,
     type: DataTypes.DATE
+  },
+  dataSearch: {
+    allowNull: false,
+    type: DataTypes.DATEONLY
   },
   limposNinho: {
     allowNull: false,

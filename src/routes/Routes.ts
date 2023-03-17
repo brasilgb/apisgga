@@ -37,7 +37,7 @@ router.delete("/aviarios", AviarioControllers.DeleteAviario);
 
 router.get("/coletas", ColetaControllers.GetColeta);
 router.get("/coletas/:idColeta", ColetaControllers.GetColetaById);
-router.get("/date/:date", ColetaControllers.GetColetaDate);
+router.get("/datacoleta/:date", ColetaControllers.GetColetaDate);
 router.post("/coletas", ColetaControllers.CreateColeta);
 router.patch("/coletas", ColetaControllers.UpdateColeta);
 router.delete("/coletas", ColetaControllers.DeleteColeta);
