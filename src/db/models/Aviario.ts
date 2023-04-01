@@ -9,14 +9,14 @@ interface AviarioAttributes {
   loteId?: number
   aviario?: string;
   dataEntrada?: Date;
-  box1Femea?: any;
-  box2Femea?: any;
-  box3Femea?: any;
-  box4Femea?: any;
-  box1Macho?: any;
-  box2Macho?: any;
-  box3Macho?: any;
-  box4Macho?: any;
+  box1Femea?: number;
+  box2Femea?: number;
+  box3Femea?: number;
+  box4Femea?: number;
+  box1Macho?: number;
+  box2Macho?: number;
+  box3Macho?: number;
+  box4Macho?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -30,14 +30,14 @@ class Aviario extends Model<AviarioAttributes, AviarioInput> implements AviarioA
   public loteId?: number
   public aviario?: string;
   public dataEntrada?: Date;
-  public box1Femea?: any;
-  public box2Femea?: any;
-  public box3Femea?: any;
-  public box4Femea?: any;
-  public box1Macho?: any;
-  public box2Macho?: any;
-  public box3Macho?: any;
-  public box4Macho?: any;
+  public box1Femea?: number;
+  public box2Femea?: number;
+  public box3Femea?: number;
+  public box4Femea?: number;
+  public box1Macho?: number;
+  public box2Macho?: number;
+  public box3Macho?: number;
+  public box4Macho?: number;
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
 };

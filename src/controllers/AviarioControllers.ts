@@ -40,10 +40,7 @@ const GetAviario = async (req: Request, res: Response): Promise<Response> => {
                         box1Macho: av.box1Macho,
                         box2Macho: av.box2Macho,
                         box3Macho: av.box3Macho,
-                        box4Macho: av.box4Macho,
-                        totalFemeas: av.box1Femea + av.box2Femea + av.box3Femea + av.box4Femea,
-                        totalMachos: av.box1Macho + av.box2Macho + av.box3Macho + av.box4Macho,
-                        totalAves: (av.box1Femea + av.box2Femea + av.box3Femea + av.box4Femea) + (av.box1Macho + av.box2Macho + av.box3Macho + av.box4Macho)
+                        box4Macho: av.box4Macho
                     }
                 ))
         });
@@ -82,10 +79,7 @@ const GetAviarioById = async (req: Request, res: Response): Promise<Response> =>
                 box1Macho: aviarios.box1Macho,
                 box2Macho: aviarios.box2Macho,
                 box3Macho: aviarios.box3Macho,
-                box4Macho: aviarios.box4Macho,
-                totalFemeas: aviarios.box1Femea + aviarios.box2Femea + aviarios.box3Femea + aviarios.box4Femea,
-                totalMachos: aviarios.box1Macho + aviarios.box2Macho + aviarios.box3Macho + aviarios.box4Macho,
-                totalAves: (aviarios.box1Femea + aviarios.box2Femea + aviarios.box3Femea + aviarios.box4Femea) + (aviarios.box1Macho + aviarios.box2Macho + aviarios.box3Macho + aviarios.box4Macho)
+                box4Macho: aviarios.box4Macho
             }
         });
 
@@ -137,10 +131,7 @@ const GetAviarioSearch = async (req: Request, res: Response): Promise<Response> 
                     box1Macho: av.box1Macho,
                     box2Macho: av.box2Macho,
                     box3Macho: av.box3Macho,
-                    box4Macho: av.box4Macho,
-                    totalFemeas: av.box1Femea + av.box2Femea + av.box3Femea + av.box4Femea,
-                    totalMachos: av.box1Macho + av.box2Macho + av.box3Macho + av.box4Macho,
-                    totalAves: (av.box1Femea + av.box2Femea + av.box3Femea + av.box4Femea) + (av.box1Macho + av.box2Macho + av.box3Macho + av.box4Macho)
+                    box4Macho: av.box4Macho
                 }
             ))
         });

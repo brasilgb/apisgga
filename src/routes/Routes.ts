@@ -5,6 +5,7 @@ import CicloControllers from "../controllers/CicloControllers";
 import ColetaControllers from "../controllers/ColetaControllers";
 import LoteControllers from "../controllers/LoteControllers";
 import MetaControllers from "../controllers/MetaControllers";
+import EnvioControllers from "../controllers/EnvioControllers";
 
 const router = express.Router();
 
@@ -41,5 +42,12 @@ router.get("/datacoleta/:date", ColetaControllers.GetColetaDate);
 router.post("/coletas", ColetaControllers.CreateColeta);
 router.patch("/coletas", ColetaControllers.UpdateColeta);
 router.delete("/coletas", ColetaControllers.DeleteColeta);
+
+router.get("/envios", EnvioControllers.GetEnvio);
+router.get("/envios/:idEnvio", EnvioControllers.GetEnvioById);
+router.post("/searchenvio", EnvioControllers.GetEnvioSearch);
+router.post("/envios", EnvioControllers.CreateEnvio);
+router.patch("/envios", EnvioControllers.UpdateEnvio);
+router.delete("/envios", EnvioControllers.DeleteEnvio);
 
 export default router;
