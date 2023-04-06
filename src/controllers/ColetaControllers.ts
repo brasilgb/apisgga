@@ -80,29 +80,6 @@ const CreateColeta = async (req: Request, res: Response): Promise<Response> => {
 
         const { 
             values
-            // cicloId,
-            // loteId,
-            // aviarioId,
-            // coleta,
-            // dataColeta,
-            // limposNinho,
-            // sujosNinho,
-            // ovosCama,
-            // duasGemas,
-            // refugos,
-            // pequenos,
-            // cascaFina,
-            // frios,
-            // esmagadosQuebrados,
-            // camaNaoIncubaveis,
-            // deformados,
-            // sujosDeCama,
-            // trincados,
-            // eliminados,
-            // incubaveisBons,
-            // incubaveis,
-            // comerciais,
-            // posturaDia
          } = req.body;
          
         const create = await Coleta.create({
@@ -145,9 +122,9 @@ const CreateColeta = async (req: Request, res: Response): Promise<Response> => {
 
 const UpdateColeta = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { idColeta, dataColeta, semanaInicial, dataFinal, semanaFinal, ativo } = req.body;
+        const { values } = req.body;
 
-        const coleta = await Coleta.findByPk(idColeta);
+        const coleta = await Coleta.findByPk(values.idColeta);
 
         if (!coleta) {
             return res.status(404).send({
@@ -156,12 +133,35 @@ const UpdateColeta = async (req: Request, res: Response): Promise<Response> => {
                 data: null
             })
         }
-        coleta.dataColeta = dataColeta;
+        coleta.dataColeta           =           values.dataColeta;
+        coleta.loteId               =               values.loteId,
+        coleta.aviarioId            =            values.aviarioId,
+        coleta.coleta               =               values.coleta,
+        coleta.dataColeta           =           values.dataColeta,
+        coleta.dataSearch           =           values.dataColeta,
+        coleta.limposNinho          =          values.limposNinho,
+        coleta.sujosNinho           =           values.sujosNinho,
+        coleta.ovosCama             =             values.ovosCama,
+        coleta.duasGemas            =            values.duasGemas,
+        coleta.refugos              =              values.refugos,
+        coleta.pequenos             =             values.pequenos,
+        coleta.cascaFina            =            values.cascaFina,
+        coleta.frios                =                values.frios,
+        coleta.esmagadosQuebrados   =   values.esmagadosQuebrados,
+        coleta.camaNaoIncubaveis    =    values.camaNaoIncubaveis,
+        coleta.deformados           =           values.deformados,
+        coleta.sujosDeCama          =          values.sujosDeCama,
+        coleta.trincados            =            values.trincados,
+        coleta.eliminados           =           values.eliminados,
+        coleta.incubaveisBons       =       values.incubaveisBons,
+        coleta.incubaveis           =           values.incubaveis,
+        coleta.comerciais           =           values.comerciais,
+        coleta.posturaDia           =           values.posturaDia
 
         await coleta.save();
         return res.status(200).send({
             status: 200,
-            message: "Coleta alterado com sucesso",
+            message: "Coleta alterada com sucesso",
             data: coleta
         });
 

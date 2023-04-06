@@ -25,15 +25,6 @@ const GetEnvio = async (req: Request, res: Response): Promise<Response> => {
             message: 'ok',
             ciclos: ciclos.length > 0 ? true : false,
             data: envios
-                .map((av: any, iav: any) => (
-                    {
-                        idEnvio: av.idEnvio,
-                        dataEnvio: av.dataEnvio,
-                        cicloId: av.cicloId,
-                        incubaveis: av.incubaveis,
-                        comerciais: av.comerciais
-                    }
-                ))
         });
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
@@ -57,13 +48,7 @@ const GetEnvioById = async (req: Request, res: Response): Promise<Response> => {
         return res.status(200).send({
             status: 200,
             message: "Ok",
-            data: {
-                idEnvio: envios.idEnvio,
-                dataEnvio: envios.dataEnvio,
-                cicloId: envios.cicloId,
-                incubaveis: envios.incubaveis,
-                comerciais: envios.comerciais
-            }
+            data: envios
         });
 
     } catch (error: any) {
@@ -72,15 +57,11 @@ const GetEnvioById = async (req: Request, res: Response): Promise<Response> => {
 };
 const GetEnvioSearch = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const ciclos = await Ciclo.findAll({
-            where: {
-                ativo: true
-            }
-        });
+        const { date } = req.body;
 
         const envios = await Envio.findAll({
             where: {
-                cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
+                dataSearch: date
             },
             include: 'ciclos'
         });
@@ -96,15 +77,7 @@ const GetEnvioSearch = async (req: Request, res: Response): Promise<Response> =>
         return res.status(200).send({
             status: 200,
             message: "Ok",
-            data: envios.map((av: any, iav: any) => (
-                {
-                    idEnvio: av.idEnvio,
-                    dataEnvio: av.dataEnvio,
-                    cicloId: av.cicloId,
-                    incubaveis: av.incubaveis,
-                    comerciais: av.comerciais
-                }
-            ))
+            data: envios
         });
 
     } catch (error: any) {
@@ -114,18 +87,20 @@ const GetEnvioSearch = async (req: Request, res: Response): Promise<Response> =>
 
 const CreateEnvio = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { dataEnvio, cicloId, incubaveis, comerciais } = req.body;
+        const { values } = req.body;
 
         const create = await Envio.create({
-            dataEnvio: dataEnvio,
-            cicloId: cicloId,
-            incubaveis: incubaveis,
-            comerciais: comerciais
+            dataEnvio: values.dataEnvio,
+            dataSearch: values.dataEnvio,
+            cicloId: values.cicloId,
+            loteId: values.loteId,
+            incubaveis: values.incubaveis,
+            comerciais: values.comerciais
         });
 
         return res.status(201).send({
             status: 201,
-            message: 'Envio criado com sucesso',
+            message: 'Envio registrado com sucesso',
             data: create
         })
 
@@ -136,9 +111,9 @@ const CreateEnvio = async (req: Request, res: Response): Promise<Response> => {
 
 const UpdateEnvio = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { idEnvio, dataEnvio, cicloId, incubaveis, comerciais } = req.body;
+        const { values } = req.body;
 
-        const envios = await Envio.findByPk(idEnvio);
+        const envios = await Envio.findByPk(values.idEnvio);
 
         if (!envios) {
             return res.status(404).send({
@@ -148,15 +123,16 @@ const UpdateEnvio = async (req: Request, res: Response): Promise<Response> => {
             })
         }
 
-            envios.dataEnvio = dataEnvio,
-            envios.cicloId = cicloId,
-            envios.incubaveis = incubaveis,
-            envios.comerciais = comerciais
+            envios.dataEnvio = values.dataEnvio,
+            envios.dataSearch = values.dataEnvio,
+            envios.loteId = values.loteId,
+            envios.incubaveis = values.incubaveis,
+            envios.comerciais = values.comerciais
 
         await envios.save();
         return res.status(200).send({
             status: 200,
-            message: "Envio editado com sucesso",
+            message: "Envio alterado com sucesso",
             data: envios
         });
 

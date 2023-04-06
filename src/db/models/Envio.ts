@@ -6,7 +6,9 @@ import Ciclo from "./Ciclo";
 interface EnvioAttributes {
   idEnvio?: number;
   dataEnvio?: Date;
+  dataSearch?: Date;
   cicloId?: number
+  loteId?: number
   incubaveis?: number;
   comerciais?: number;
   createdAt?: Date;
@@ -19,7 +21,9 @@ export interface EnvioOutput extends Required<EnvioAttributes> { }
 class Envio extends Model<EnvioAttributes, EnvioInput> implements EnvioAttributes {
   public idEnvio?: number;
   public dataEnvio?: Date;
+  public dataSearch?: Date;
   public cicloId?: number
+  public loteId?: number
   public incubaveis?: number;
   public comerciais?: number;
   public readonly createdAt?: Date;
@@ -37,7 +41,15 @@ Envio.init({
     allowNull: false,
     type: DataTypes.DATE
   },
+  dataSearch: {
+    allowNull: false,
+    type: DataTypes.DATEONLY
+  },
   cicloId: {
+    allowNull: true,
+    type: DataTypes.BIGINT
+  },
+  loteId: {
     allowNull: true,
     type: DataTypes.BIGINT
   },

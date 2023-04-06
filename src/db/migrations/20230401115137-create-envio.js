@@ -13,7 +13,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      dataSearch: {
+        allowNull: false,
+        type: Sequelize.DATEONLY
+      },
       cicloId: {
+        allowNull: false,
+        type: Sequelize.BIGINT
+      },
+      loteId: {
         allowNull: false,
         type: Sequelize.BIGINT
       },
