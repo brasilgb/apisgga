@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { Sequelize, Dialect } from "sequelize";
+import { Sequelize, Dialect, QueryTypes } from "sequelize";
 
 const dbDatabase = process.env.DB_DATABASE as string;
 const dbHostname = process.env.DB_HOSTNAME;
