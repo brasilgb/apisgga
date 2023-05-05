@@ -3,11 +3,11 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('mortalidades', {
-      id: {
+      idMortalidade: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       cicloId: {
         allowNull: false,
@@ -21,9 +21,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      dataMortalidade: {
+      dataMorte: {
         allowNull: false,
         type: Sequelize.DATEONLY
+      },
+      causaMorte: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
       box1Femea: {
         allowNull: false,
@@ -77,7 +81,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    }).then(() => queryInterface.addConstraint('mortalidades', {
+      fields: ['cicloId'],
+      type: 'foreign key',
+      name: 'fk_mortalidades_ciclos',
+      references: {
+        table: 'ciclos',
+        field: 'idCiclo'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'no action',
+    }));
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('mortalidades');

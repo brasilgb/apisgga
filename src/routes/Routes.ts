@@ -6,6 +6,7 @@ import ColetaControllers from "../controllers/ColetaControllers";
 import LoteControllers from "../controllers/LoteControllers";
 import MetaControllers from "../controllers/MetaControllers";
 import EnvioControllers from "../controllers/EnvioControllers";
+import MortalidadeControllers from "../controllers/MortalidadeControllers";
 
 const router = express.Router();
 
@@ -49,5 +50,12 @@ router.post("/searchenvio", EnvioControllers.GetEnvioSearch);
 router.post("/envios", EnvioControllers.CreateEnvio);
 router.patch("/envios", EnvioControllers.UpdateEnvio);
 router.delete("/envios", EnvioControllers.DeleteEnvio);
+
+router.get("/mortalidades", MortalidadeControllers.GetMortalidade);
+router.get("/mortalidades/:idMortalidade", MortalidadeControllers.GetMortalidadeById);
+router.post("/searchmortalidade", MortalidadeControllers.GetMortalidadeSearch);
+router.post("/mortalidades", MortalidadeControllers.CreateMortalidade);
+router.patch("/mortalidades", MortalidadeControllers.UpdateMortalidade);
+router.delete("/mortalidades", MortalidadeControllers.DeleteMortalidade);
 
 export default router;

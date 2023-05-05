@@ -2,6 +2,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
 import Aviario from "./Aviario";
 import Coleta from "./Coleta";
+import Mortalidade from "./Mortalidade";
 
 interface LoteAttributes {
   idLote?: Number;
@@ -102,6 +103,17 @@ Lote.hasMany(Coleta, {
 })
 
 Coleta.belongsTo(Lote, {
+  foreignKey: 'loteId',
+  as: 'lotes'
+})
+
+Lote.hasMany(Mortalidade, {
+  sourceKey: 'idLote',
+  foreignKey: 'loteId',
+  as: 'mortalidades'
+})
+
+Mortalidade.belongsTo(Lote, {
   foreignKey: 'loteId',
   as: 'lotes'
 })

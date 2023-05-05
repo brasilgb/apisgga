@@ -1,14 +1,16 @@
 import { DataTypes, Model, ModelStatic, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
-import Coleta from "./Coleta";
-import Mortalidade from "./Mortalidade";
+import Lote from "./Lote";
+import Aviario from "./Aviario";
 
-interface AviarioAttributes {
-  idAviario?: number;
+
+interface MortalidadeAttributes {
+  idMortalidade?: number;
   cicloId?: number
   loteId?: number
-  aviario?: string;
-  dataEntrada?: Date;
+  aviarioId?: string;
+  dataMorte?: Date;
+  causaMorte?: string;
   box1Femea?: number;
   box2Femea?: number;
   box3Femea?: number;
@@ -17,19 +19,23 @@ interface AviarioAttributes {
   box2Macho?: number;
   box3Macho?: number;
   box4Macho?: number;
+  totalFemeas?: number;
+  totalMachos?: number;
+  totalAves?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface AviarioInput extends Optional<AviarioAttributes, 'idAviario'> { }
-export interface AviarioOutput extends Required<AviarioAttributes> { }
+export interface MortalidadeInput extends Optional<MortalidadeAttributes, 'idMortalidade'> { }
+export interface MortalidadeOutput extends Required<MortalidadeAttributes> { }
 
-class Aviario extends Model<AviarioAttributes, AviarioInput> implements AviarioAttributes {
-  public idAviario?: number;
+class Mortalidade extends Model<MortalidadeAttributes, MortalidadeInput> implements MortalidadeAttributes {
+  public idMortalidade?: number;
   public cicloId?: number
   public loteId?: number
-  public aviario?: string;
-  public dataEntrada?: Date;
+  public aviarioId?: string;
+  public dataMorte?: Date;
+  public causaMorte?: string;
   public box1Femea?: number;
   public box2Femea?: number;
   public box3Femea?: number;
@@ -38,36 +44,43 @@ class Aviario extends Model<AviarioAttributes, AviarioInput> implements AviarioA
   public box2Macho?: number;
   public box3Macho?: number;
   public box4Macho?: number;
+  public totalFemeas?: number;
+  public totalMachos?: number;
+  public totalAves?: number;
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
 };
 
-Aviario.init({
-  idAviario: {
+Mortalidade.init({
+  idMortalidade: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    field: 'idAviario',
+    field: 'idMortalidade',
     type: DataTypes.BIGINT,
   },
   cicloId: {
     allowNull: true,
-    type: DataTypes.BIGINT
+    type: DataTypes.INTEGER
   },
   loteId: {
     allowNull: true,
-    type: DataTypes.BIGINT
+    type: DataTypes.INTEGER
   },
-  aviario: {
-    allowNull: false,
-    type: DataTypes.STRING
+  aviarioId: {
+    allowNull: true,
+    type: DataTypes.INTEGER
   },
-  dataEntrada: {
-    allowNull: false,
+  dataMorte: {
+    allowNull: true,
     type: DataTypes.DATE
   },
+  causaMorte: {
+    allowNull: true,
+    type: DataTypes.STRING
+  },
   box1Femea: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.INTEGER
   },
   box2Femea: {
@@ -83,7 +96,7 @@ Aviario.init({
     type: DataTypes.INTEGER
   },
   box1Macho: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.INTEGER
   },
   box2Macho: {
@@ -97,35 +110,25 @@ Aviario.init({
   box4Macho: {
     allowNull: true,
     type: DataTypes.INTEGER
+  },
+  totalFemeas: {
+    allowNull: true,
+    type: DataTypes.INTEGER
+  },
+  totalMachos: {
+    allowNull: true,
+    type: DataTypes.INTEGER
+  },
+  totalAves: {
+    allowNull: true,
+    type: DataTypes.INTEGER
   }
 }, {
-  modelName: 'Aviario',
-  tableName: 'aviarios',
+  modelName: 'Mortalidade',
+  tableName: 'mortalidades',
   timestamps: true,
   sequelize: connection,
   underscored: false
 });
 
-export default Aviario;
-
-Aviario.hasMany(Coleta, {
-  sourceKey: 'idAviario',
-  foreignKey: 'aviarioId',
-  as: 'coletas'
-})
-
-Coleta.belongsTo(Aviario, {
-  foreignKey: 'aviarioId',
-  as: 'aviarios'
-})
-
-Aviario.hasMany(Mortalidade, {
-  sourceKey: 'idAviario',
-  foreignKey: 'aviarioId',
-  as: 'mortalidades'
-})
-
-Mortalidade.belongsTo(Aviario, {
-  foreignKey: 'aviarioId',
-  as: 'aviarios'
-})
+export default Mortalidade;
