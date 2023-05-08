@@ -15,7 +15,7 @@ const GetMortalidade = async (req: Request, res: Response): Promise<Response> =>
 
         const mortalidades = await Mortalidade.findAll({
             where: {
-                cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
+                cicloId: ciclos ? ciclos[0]?.idCiclo : 0
             },
             include: ['lotes', 'aviarios']
         });
@@ -23,7 +23,7 @@ const GetMortalidade = async (req: Request, res: Response): Promise<Response> =>
         return res.status(200).send({
             status: 200,
             message: 'ok',
-            ciclos: ciclos.length > 0 ? false : true,
+            ciclos: ciclos.length > 0 ? true : false,
             data: mortalidades
                 .map((av: any, iav: any) => (
                     {
@@ -34,6 +34,8 @@ const GetMortalidade = async (req: Request, res: Response): Promise<Response> =>
                         aviarioId: av.aviarioId,
                         aviario: av.aviarios.aviario,
                         dataMorte: av.dataMorte,
+                        causaMorte: av.causaMorte,
+                        outraCausa: av.outraCausa,
                         box1Femea: av.box1Femea,
                         box2Femea: av.box2Femea,
                         box3Femea: av.box3Femea,
@@ -121,27 +123,29 @@ const CreateMortalidade = async (req: Request, res: Response): Promise<Response>
         const { data } = req.body;
 
         const create = await Mortalidade.create({
-            cicloId: data.cicloId,
-            loteId: data.loteId,
-            aviarioId: data.aviarioId,
-            dataMorte: data.dataMorte,
-            box1Femea: data.box1Femea,
-            box2Femea: data.box2Femea,
-            box3Femea: data.box3Femea,
-            box4Femea: data.box4Femea,
-            box1Macho: data.box1Macho,
-            box2Macho: data.box2Macho,
-            box3Macho: data.box3Macho,
-            box4Macho: data.box4Macho,
-            totalFemeas: data.totalFemeas,
-            totalMachos: data.totalFemeas,
-            totalAves: data.totalAves
+            cicloId:    data.cicloId,
+            loteId:     data.loteId,
+            aviarioId:  data.aviarioId,
+            dataMorte:  data.dataMorte,
+            causaMorte: data.causaMorte,
+            outraCausa: data.outraCausa,
+            box1Femea:  data.box1Femea,
+            box2Femea:  data.box2Femea,
+            box3Femea:  data.box3Femea,
+            box4Femea:  data.box4Femea,
+            box1Macho:  data.box1Macho,
+            box2Macho:  data.box2Macho,
+            box3Macho:  data.box3Macho,
+            box4Macho:  data.box4Macho,
+            totalFemeas:data.totalFemeas,
+            totalMachos:data.totalMachos,
+            totalAves:  data.totalAves
         });
 
         return res.status(201).send({
             status: 201,
-            message: 'Aviário criado com sucesso',
-            data: create
+            message: 'Mortes registradas com sucesso',
+            // data: create
         })
 
     } catch (error: any) {
@@ -167,6 +171,8 @@ const UpdateMortalidade = async (req: Request, res: Response): Promise<Response>
         mortalidades.loteId = data.loteId;
         mortalidades.aviarioId = data.aviarioId;
         mortalidades.dataMorte = data.dataMorte;
+        mortalidades.causaMorte = data.causaMorte;
+        mortalidades.outraCausa = data.outraCausa;
         mortalidades.box1Femea = data.box1Femea;
         mortalidades.box2Femea = data.box2Femea;
         mortalidades.box3Femea = data.box3Femea;

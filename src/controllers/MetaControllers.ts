@@ -44,7 +44,7 @@ const GetMetaById = async (req: Request, res: Response): Promise<Response> => {
 
 const CreateMeta = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { cicloId, semana, dataInicial } = req.body;
+        const { cicloId, semana, dataInicial, dataFinal } = req.body;
 
         const create = await Meta.findOrCreate({
             where: {
@@ -54,6 +54,7 @@ const CreateMeta = async (req: Request, res: Response): Promise<Response> => {
                 cicloId: cicloId,
                 semana: semana,
                 dataInicial: dataInicial,
+                dataFinal: dataFinal,
             }
         });
 

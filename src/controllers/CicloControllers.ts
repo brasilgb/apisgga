@@ -72,7 +72,7 @@ const GetCicloDate = async (req: Request, res: Response): Promise<Response> => {
 
 const CreateCiclo = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { dataInicial, semanaInicial, ativo } = req.body;
+        const { dataInicial, dataFinal, semanaInicial, ativo } = req.body;
         await Ciclo.update({ ativo: false },
             {
                 where: {
@@ -88,6 +88,7 @@ const CreateCiclo = async (req: Request, res: Response): Promise<Response> => {
             "cicloId": create.idCiclo,
             "semana": semanaInicial,
             "dataInicial": dataInicial,
+            "dataFinal": dataFinal
         });
 
         return res.status(201).send({

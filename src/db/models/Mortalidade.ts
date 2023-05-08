@@ -1,7 +1,5 @@
 import { DataTypes, Model, ModelStatic, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
-import Lote from "./Lote";
-import Aviario from "./Aviario";
 
 
 interface MortalidadeAttributes {
@@ -11,6 +9,7 @@ interface MortalidadeAttributes {
   aviarioId?: string;
   dataMorte?: Date;
   causaMorte?: string;
+  outraCausa?: string;
   box1Femea?: number;
   box2Femea?: number;
   box3Femea?: number;
@@ -36,6 +35,7 @@ class Mortalidade extends Model<MortalidadeAttributes, MortalidadeInput> impleme
   public aviarioId?: string;
   public dataMorte?: Date;
   public causaMorte?: string;
+  public outraCausa?: string;
   public box1Femea?: number;
   public box2Femea?: number;
   public box3Femea?: number;
@@ -78,6 +78,10 @@ Mortalidade.init({
   causaMorte: {
     allowNull: true,
     type: DataTypes.STRING
+  },
+  outraCausa: {
+    allowNull: true,
+    type: DataTypes.TEXT
   },
   box1Femea: {
     allowNull: true,

@@ -29,6 +29,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      outraCausa: {
+        allowNull: false,
+        type: Sequelize.TEXT
+      },
       box1Femea: {
         allowNull: false,
         type: Sequelize.INTEGER
