@@ -83,7 +83,7 @@ const GetMortalidadeById = async (req: Request, res: Response): Promise<Response
 };
 const GetMortalidadeSearch = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { lote } = req.body;
+        const { date } = req.body;
 
         const ciclos = await Ciclo.findAll({
             where: {
@@ -93,8 +93,7 @@ const GetMortalidadeSearch = async (req: Request, res: Response): Promise<Respon
 
         const mortalidades = await Mortalidade.findAll({
             where: {
-                loteId: lote,
-                cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
+                dataMorte: date
             },
             include: 'lotes'
         });
@@ -156,7 +155,7 @@ const CreateMortalidade = async (req: Request, res: Response): Promise<Response>
 const UpdateMortalidade = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { data } = req.body;
-
+console.log(data);
         const mortalidades = await Mortalidade.findByPk(data.idMortalidade);
 
         if (!mortalidades) {

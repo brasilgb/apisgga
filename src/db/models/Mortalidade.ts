@@ -73,7 +73,7 @@ Mortalidade.init({
   },
   dataMorte: {
     allowNull: true,
-    type: DataTypes.DATE
+    type: DataTypes.DATEONLY
   },
   causaMorte: {
     allowNull: true,

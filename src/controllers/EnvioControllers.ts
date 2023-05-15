@@ -97,7 +97,7 @@ const CreateEnvio = async (req: Request, res: Response): Promise<Response> => {
             incubaveis: values.incubaveis,
             comerciais: values.comerciais
         });
-
+ 
         return res.status(201).send({
             status: 201,
             message: 'Envio registrado com sucesso',
