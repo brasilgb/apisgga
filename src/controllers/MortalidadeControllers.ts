@@ -155,7 +155,7 @@ const CreateMortalidade = async (req: Request, res: Response): Promise<Response>
 const UpdateMortalidade = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { data } = req.body;
-console.log(data);
+
         const mortalidades = await Mortalidade.findByPk(data.idMortalidade);
 
         if (!mortalidades) {

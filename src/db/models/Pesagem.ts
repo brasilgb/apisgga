@@ -1,15 +1,13 @@
 import { DataTypes, Model, ModelStatic, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
-import Coleta from "./Coleta";
-import Mortalidade from "./Mortalidade";
-import Pesagem from "./Pesagem";
 
-interface AviarioAttributes {
-  idAviario?: number;
+interface PesagemAttributes {
+  idPesagem?: number;
   cicloId?: number
   loteId?: number
-  aviario?: string;
-  dataEntrada?: Date;
+  aviarioId?: number;
+  dataPesagem?: Date;
+  semana?: number;
   box1Femea?: number;
   box2Femea?: number;
   box3Femea?: number;
@@ -22,15 +20,16 @@ interface AviarioAttributes {
   updatedAt?: Date;
 }
 
-export interface AviarioInput extends Optional<AviarioAttributes, 'idAviario'> { }
-export interface AviarioOutput extends Required<AviarioAttributes> { }
+export interface PesagemInput extends Optional<PesagemAttributes, 'idPesagem'> { }
+export interface PesagemOutput extends Required<PesagemAttributes> { }
 
-class Aviario extends Model<AviarioAttributes, AviarioInput> implements AviarioAttributes {
-  public idAviario?: number;
+class Pesagem extends Model<PesagemAttributes, PesagemInput> implements PesagemAttributes {
+  public idPesagem?: number;
   public cicloId?: number
   public loteId?: number
-  public aviario?: string;
-  public dataEntrada?: Date;
+  public aviarioId?: number;
+  public dataPesagem?: Date;
+  public semana?: number;
   public box1Femea?: number;
   public box2Femea?: number;
   public box3Femea?: number;
@@ -43,12 +42,12 @@ class Aviario extends Model<AviarioAttributes, AviarioInput> implements AviarioA
   public readonly updatedAt?: Date;
 };
 
-Aviario.init({
-  idAviario: {
+Pesagem.init({
+  idPesagem: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    field: 'idAviario',
+    field: 'idPesagem',
     type: DataTypes.BIGINT,
   },
   cicloId: {
@@ -59,13 +58,17 @@ Aviario.init({
     allowNull: true,
     type: DataTypes.BIGINT
   },
-  aviario: {
+  aviarioId: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.BIGINT
   },
-  dataEntrada: {
+  dataPesagem: {
     allowNull: false,
     type: DataTypes.DATE
+  },
+  semana: {
+    allowNull: false,
+    type: DataTypes.INTEGER
   },
   box1Femea: {
     allowNull: false,
@@ -100,44 +103,11 @@ Aviario.init({
     type: DataTypes.INTEGER
   }
 }, {
-  modelName: 'Aviario',
-  tableName: 'aviarios',
+  modelName: 'Pesagem',
+  tableName: 'pesagens',
   timestamps: true,
   sequelize: connection,
   underscored: false
 });
 
-export default Aviario;
-
-Aviario.hasMany(Coleta, {
-  sourceKey: 'idAviario',
-  foreignKey: 'aviarioId',
-  as: 'coletas'
-})
-
-Coleta.belongsTo(Aviario, {
-  foreignKey: 'aviarioId',
-  as: 'aviarios'
-})
-
-Aviario.hasMany(Mortalidade, {
-  sourceKey: 'idAviario',
-  foreignKey: 'aviarioId',
-  as: 'mortalidades'
-})
-
-Mortalidade.belongsTo(Aviario, {
-  foreignKey: 'aviarioId',
-  as: 'aviarios'
-})
-
-Aviario.hasMany(Pesagem, {
-  sourceKey: 'idAviario',
-  foreignKey: 'aviarioId',
-  as: 'pesagens'
-})
-
-Pesagem.belongsTo(Aviario, {
-  foreignKey: 'aviarioId',
-  as: 'aviarios'
-})
+export default Pesagem;
