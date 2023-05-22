@@ -55,7 +55,7 @@ const GetPesagemById = async (req: Request, res: Response): Promise<Response> =>
     try {
         const { idPesagem } = req.params;
 
-        const pesagens:any = await Pesagem.findByPk(idPesagem, { include: ['lotes', 'aviarios'] });
+        const pesagens: any = await Pesagem.findByPk(idPesagem, { include: ['lotes', 'aviarios'] });
 
         if (!pesagens) {
             return res.status(404).send({
@@ -94,18 +94,11 @@ const GetPesagemById = async (req: Request, res: Response): Promise<Response> =>
 };
 const GetPesagemSearch = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { lote } = req.body;
-
-        const ciclos = await Ciclo.findAll({
-            where: {
-                ativo: true
-            }
-        });
+        const { date } = req.body;
 
         const pesagens = await Pesagem.findAll({
             where: {
-                loteId: lote,
-                cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
+                dataPesagem: date
             },
             include: ['lotes', 'aviarios']
         });
@@ -193,7 +186,7 @@ const UpdatePesagem = async (req: Request, res: Response): Promise<Response> => 
             })
         }
 
-            pesagens.cicloId = data.cicloId,
+        pesagens.cicloId = data.cicloId,
             pesagens.loteId = data.loteId,
             pesagens.aviarioId = data.aviarioId,
             pesagens.dataPesagem = data.dataPesagem,

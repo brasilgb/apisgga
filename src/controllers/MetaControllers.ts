@@ -2,10 +2,22 @@ import { Request, Response } from "express";
 
 import Meta from "../db/models/Meta";
 import Helper from "../helpers/Helper";
+import Ciclo from "../db/models/Ciclo";
 
 const GetMeta = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const metas = await Meta.findAll();
+
+        const ciclos = await Ciclo.findAll({
+            where: {
+                ativo: true
+            }
+        });
+
+        const metas = await Meta.findAll({
+            where: {
+                cicloId: ciclos ? ciclos[0]?.idCiclo : 0
+            }
+        });
 
         return res.status(200).send({
             status: 200,
@@ -63,7 +75,7 @@ const CreateMeta = async (req: Request, res: Response): Promise<Response> => {
             message: 'Created with success',
             data: create
         })
-        
+
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }

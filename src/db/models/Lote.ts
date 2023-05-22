@@ -4,6 +4,7 @@ import Aviario from "./Aviario";
 import Coleta from "./Coleta";
 import Mortalidade from "./Mortalidade";
 import Pesagem from "./Pesagem";
+import Recebimento from "./Recebimento";
 
 interface LoteAttributes {
   idLote?: Number;
@@ -126,6 +127,17 @@ Lote.hasMany(Pesagem, {
 })
 
 Pesagem.belongsTo(Lote, {
+  foreignKey: 'loteId',
+  as: 'lotes'
+})
+
+Lote.hasMany(Recebimento, {
+  sourceKey: 'idLote',
+  foreignKey: 'loteId',
+  as: 'recebimentos'
+})
+
+Recebimento.belongsTo(Lote, {
   foreignKey: 'loteId',
   as: 'lotes'
 })

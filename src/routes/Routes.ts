@@ -8,6 +8,7 @@ import MetaControllers from "../controllers/MetaControllers";
 import EnvioControllers from "../controllers/EnvioControllers";
 import MortalidadeControllers from "../controllers/MortalidadeControllers";
 import PesagemControllers from "../controllers/PesagemControllers";
+import RecebimentoControllers from "../controllers/RecebimentoControllers";
 
 const router = express.Router();
 
@@ -65,5 +66,12 @@ router.post("/searchpesagem", PesagemControllers.GetPesagemSearch);
 router.post("/pesagens", PesagemControllers.CreatePesagem);
 router.patch("/pesagens", PesagemControllers.UpdatePesagem);
 router.delete("/pesagens", PesagemControllers.DeletePesagem);
+
+router.get("/recebimentos", RecebimentoControllers.GetRecebimento);
+router.get("/recebimentos/:idRecebimento", RecebimentoControllers.GetRecebimentoById);
+router.post("/searchrecebimento", RecebimentoControllers.GetRecebimentoSearch);
+router.post("/recebimentos", RecebimentoControllers.CreateRecebimento);
+router.patch("/recebimentos", RecebimentoControllers.UpdateRecebimento);
+router.delete("/recebimentos", RecebimentoControllers.DeleteRecebimento);
 
 export default router;

@@ -85,7 +85,7 @@ const GetMortalidadeSearch = async (req: Request, res: Response): Promise<Respon
     try {
         const { date } = req.body;
 
-        const ciclos = await Ciclo.findAll({
+        const ciclos = await Ciclo.findAll({  
             where: {
                 ativo: true
             }

@@ -1,4 +1,4 @@
-import { DataTypes, Model, ModelStatic, Optional } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
 
 interface PesagemAttributes {
@@ -64,7 +64,7 @@ Pesagem.init({
   },
   dataPesagem: {
     allowNull: false,
-    type: DataTypes.DATE
+    type: DataTypes.DATEONLY
   },
   semana: {
     allowNull: false,
@@ -72,35 +72,35 @@ Pesagem.init({
   },
   box1Femea: {
     allowNull: false,
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(10,3)
   },
   box2Femea: {
     allowNull: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(10,3)
   },
   box3Femea: {
     allowNull: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(10,3)
   },
   box4Femea: {
     allowNull: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(10,3)
   },
   box1Macho: {
     allowNull: false,
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(10,3)
   },
   box2Macho: {
     allowNull: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(10,3)
   },
   box3Macho: {
     allowNull: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(10,3)
   },
   box4Macho: {
     allowNull: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(10,3)
   }
 }, {
   modelName: 'Pesagem',

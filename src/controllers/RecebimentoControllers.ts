@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 
-import Envio from "../db/models/Envio";
+import Recebimento from "../db/models/Recebimento";
 import Ciclo from "../db/models/Ciclo";
 import Helper from "../helpers/Helper";
 
-const GetEnvio = async (req: Request, res: Response): Promise<Response> => {
+const GetRecebimento = async (req: Request, res: Response): Promise<Response> => {
     try {
 
         const ciclos = await Ciclo.findAll({
@@ -13,30 +13,39 @@ const GetEnvio = async (req: Request, res: Response): Promise<Response> => {
             }
         });
 
-        const envios = await Envio.findAll({
+        const recebimentos = await Recebimento.findAll({
             where: {
                 cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
-            }
+            },
+            include: 'lotes'
         });
 
         return res.status(200).send({
             status: 200,
             message: 'ok',
             ciclos: ciclos.length > 0 ? true : false,
-            data: envios
+            data: recebimentos.map((re: any, ire: any) => (
+                {
+                    loteId: re.loteId,
+                    lote: re.lotes.lote,
+                    dataRecebimento: re.dataRecebimento,
+                    femea: re.femea,
+                    macho: re.macho
+                }
+            ))
         });
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
 
-const GetEnvioById = async (req: Request, res: Response): Promise<Response> => {
+const GetRecebimentoById = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { idEnvio } = req.params;
+        const { idRecebimento } = req.params;
 
-        const envios = await Envio.findByPk(idEnvio, { include: ['ciclos'] });
+        const recebimentos = await Recebimento.findByPk(idRecebimento);
 
-        if (!envios) {
+        if (!recebimentos) {
             return res.status(404).send({
                 status: 404,
                 message: "Dado não encontrado",
@@ -47,25 +56,25 @@ const GetEnvioById = async (req: Request, res: Response): Promise<Response> => {
         return res.status(200).send({
             status: 200,
             message: "Ok",
-            data: envios
+            data: recebimentos
         });
 
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, "Internal Server error", error, null));
     }
 };
-const GetEnvioSearch = async (req: Request, res: Response): Promise<Response> => {
+const GetRecebimentoSearch = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { date } = req.body;
 
-        const envios = await Envio.findAll({
+        const recebimentos = await Recebimento.findAll({
             where: {
                 dataSearch: date
             },
             include: 'ciclos'
         });
 
-        if (!envios) {
+        if (!recebimentos) {
             return res.status(404).send({
                 status: 404,
                 message: "Lote não encontrado",
@@ -76,7 +85,7 @@ const GetEnvioSearch = async (req: Request, res: Response): Promise<Response> =>
         return res.status(200).send({
             status: 200,
             message: "Ok",
-            data: envios
+            data: recebimentos
         });
 
     } catch (error: any) {
@@ -84,22 +93,22 @@ const GetEnvioSearch = async (req: Request, res: Response): Promise<Response> =>
     }
 };
 
-const CreateEnvio = async (req: Request, res: Response): Promise<Response> => {
+const CreateRecebimento = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { values } = req.body;
-
-        const create = await Envio.create({
-            dataEnvio: values.dataEnvio,
-            dataSearch: values.dataEnvio,
+        const create = await Recebimento.create({
             cicloId: values.cicloId,
             loteId: values.loteId,
-            incubaveis: values.incubaveis,
-            comerciais: values.comerciais
+            dataRecebimento: values.dataRecebimento,
+            dataSearch: values.dataRecebimento,
+            femea: values.femea,
+            macho: values.macho,
+            notaFiscal: values.notaFiscal
         });
- 
+
         return res.status(201).send({
             status: 201,
-            message: 'Envio registrado com sucesso',
+            message: 'Recebimento registrado com sucesso',
             data: create
         })
 
@@ -108,31 +117,32 @@ const CreateEnvio = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
-const UpdateEnvio = async (req: Request, res: Response): Promise<Response> => {
+const UpdateRecebimento = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { values } = req.body;
 
-        const envios = await Envio.findByPk(values.idEnvio);
+        const recebimentos = await Recebimento.findByPk(values.idRecebimento);
 
-        if (!envios) {
+        if (!recebimentos) {
             return res.status(404).send({
                 status: 404,
-                message: "Envio não encontrado",
+                message: "Recebimento não encontrado",
                 data: null
             })
         }
 
-            envios.dataEnvio = values.dataEnvio,
-            envios.dataSearch = values.dataEnvio,
-            envios.loteId = values.loteId,
-            envios.incubaveis = values.incubaveis,
-            envios.comerciais = values.comerciais
+        recebimentos.dataRecebimento = values.dataRecebimento,
+            recebimentos.dataSearch = values.dataRecebimento,
+            recebimentos.loteId = values.loteId,
+            recebimentos.femea = values.femea,
+            recebimentos.macho = values.macho,
+            recebimentos.notaFiscal = values.notaFiscal
 
-        await envios.save();
+        await recebimentos.save();
         return res.status(200).send({
             status: 200,
-            message: "Envio alterado com sucesso",
-            data: envios
+            message: "Recebimento alterado com sucesso",
+            data: recebimentos
         });
 
     } catch (error: any) {
@@ -140,25 +150,25 @@ const UpdateEnvio = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
-const DeleteEnvio = async (req: Request, res: Response): Promise<Response> => {
+const DeleteRecebimento = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { idEnvio } = req.body;
+        const { idRecebimento } = req.body;
 
-        const envios = await Envio.findByPk(idEnvio);
+        const recebimentos = await Recebimento.findByPk(idRecebimento);
 
-        if (!envios) {
+        if (!recebimentos) {
             return res.status(404).send({
                 status: 404,
-                message: "Envio não encontrado",
+                message: "Recebimento não encontrado",
                 data: null
             })
         }
 
-        await envios.destroy();
+        await recebimentos.destroy();
         return res.status(200).send({
             status: 200,
-            message: "Envio deletado com sucesso",
-            data: envios
+            message: "Recebimento deletado com sucesso",
+            data: recebimentos
         });
 
     } catch (error: any) {
@@ -166,4 +176,4 @@ const DeleteEnvio = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
-export default { GetEnvio, GetEnvioById, GetEnvioSearch, CreateEnvio, UpdateEnvio, DeleteEnvio };
+export default { GetRecebimento, GetRecebimentoById, GetRecebimentoSearch, CreateRecebimento, UpdateRecebimento, DeleteRecebimento };

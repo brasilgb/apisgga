@@ -23,7 +23,7 @@ module.exports = {
       },
       dataPesagem: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       semana: {
         allowNull: false,
@@ -31,35 +31,35 @@ module.exports = {
       },
       box1Femea: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT(10,3)
       },
       box2Femea: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT(10,3)
       },
       box3Femea: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT(10,3)
       },
       box4Femea: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT(10,3)
       },
       box1Macho: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT(10,3)
       },
       box2Macho: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT(10,3)
       },
       box3Macho: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT(10,3)
       },
       box4Macho: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT(10,3)
       },
       createdAt: {
         allowNull: false,

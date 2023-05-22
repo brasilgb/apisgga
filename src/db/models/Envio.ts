@@ -70,14 +70,3 @@ Envio.init({
 });
 
 export default Envio;
-
-Ciclo.hasMany(Envio, {
-  sourceKey: 'idCiclo',
-  foreignKey: 'cicloId',
-  as: 'envios'
-})
-
-Envio.belongsTo(Ciclo, {
-  foreignKey: 'cicloId',
-  as: 'ciclos'
-})
