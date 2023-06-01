@@ -56,17 +56,17 @@ const GetMetaById = async (req: Request, res: Response): Promise<Response> => {
 
 const CreateMeta = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { cicloId, semana, dataInicial, dataFinal } = req.body;
+        const { data } = req.body;
 
         const create = await Meta.findOrCreate({
             where: {
-                semana: semana,
+                semana: data.semana,
             },
             defaults: {
-                cicloId: cicloId,
-                semana: semana,
-                dataInicial: dataInicial,
-                dataFinal: dataFinal,
+                cicloId: data.cicloId,
+                semana: data.semana,
+                dataInicial: data.dataInicial,
+                dataFinal: data.dataFinal,
             }
         });
 

@@ -85,7 +85,7 @@ const GetMortalidadeSearch = async (req: Request, res: Response): Promise<Respon
     try {
         const { date } = req.body;
 
-        const ciclos = await Ciclo.findAll({  
+        const ciclos = await Ciclo.findAll({
             where: {
                 ativo: true
             }
@@ -95,7 +95,7 @@ const GetMortalidadeSearch = async (req: Request, res: Response): Promise<Respon
             where: {
                 dataMorte: date
             },
-            include: 'lotes'
+            include: ['lotes', 'aviarios']
         });
 
         if (!mortalidades) {
@@ -110,6 +110,30 @@ const GetMortalidadeSearch = async (req: Request, res: Response): Promise<Respon
             status: 200,
             message: "Ok",
             data: mortalidades
+            .map((av: any, iav: any) => (
+                {
+                    idMortalidade: av.idMortalidade,
+                    cicloId: av.cicloId,
+                    loteId: av.loteId,
+                    lote: av.lotes.lote,
+                    aviarioId: av.aviarioId,
+                    aviario: av.aviarios.aviario,
+                    dataMorte: av.dataMorte,
+                    causaMorte: av.causaMorte,
+                    outraCausa: av.outraCausa,
+                    box1Femea: av.box1Femea,
+                    box2Femea: av.box2Femea,
+                    box3Femea: av.box3Femea,
+                    box4Femea: av.box4Femea,
+                    box1Macho: av.box1Macho,
+                    box2Macho: av.box2Macho,
+                    box3Macho: av.box3Macho,
+                    box4Macho: av.box4Macho,
+                    totalFemeas: av.totalFemeas,
+                    totalMachos: av.totalMachos,
+                    totalAves: av.totalAves,
+                }
+            ))
         });
 
     } catch (error: any) {
@@ -122,29 +146,29 @@ const CreateMortalidade = async (req: Request, res: Response): Promise<Response>
         const { data } = req.body;
 
         const create = await Mortalidade.create({
-            cicloId:    data.cicloId,
-            loteId:     data.loteId,
-            aviarioId:  data.aviarioId,
-            dataMorte:  data.dataMorte,
+            cicloId: data.cicloId,
+            loteId: data.loteId,
+            aviarioId: data.aviarioId,
+            dataMorte: data.dataMorte,
             causaMorte: data.causaMorte,
             outraCausa: data.outraCausa,
-            box1Femea:  data.box1Femea,
-            box2Femea:  data.box2Femea,
-            box3Femea:  data.box3Femea,
-            box4Femea:  data.box4Femea,
-            box1Macho:  data.box1Macho,
-            box2Macho:  data.box2Macho,
-            box3Macho:  data.box3Macho,
-            box4Macho:  data.box4Macho,
-            totalFemeas:data.totalFemeas,
-            totalMachos:data.totalMachos,
-            totalAves:  data.totalAves
+            box1Femea: data.box1Femea,
+            box2Femea: data.box2Femea,
+            box3Femea: data.box3Femea,
+            box4Femea: data.box4Femea,
+            box1Macho: data.box1Macho,
+            box2Macho: data.box2Macho,
+            box3Macho: data.box3Macho,
+            box4Macho: data.box4Macho,
+            totalFemeas: data.totalFemeas,
+            totalMachos: data.totalMachos,
+            totalAves: data.totalAves
         });
 
         return res.status(201).send({
             status: 201,
             message: 'Mortes registradas com sucesso',
-            // data: create
+            data: create
         })
 
     } catch (error: any) {

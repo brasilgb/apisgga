@@ -6,7 +6,19 @@ import Helper from "../helpers/Helper";
 
 const GetColeta = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const coletas = await Coleta.findAll({ include: ['aviarios','lotes'] });
+
+        const ciclos = await Ciclo.findAll({
+            where: {
+                ativo: true
+            }
+        });
+
+        const coletas = await Coleta.findAll({
+            where: {
+                cicloId: ciclos[0]?.idCiclo ? ciclos[0]?.idCiclo : 0
+            },
+            include: ['aviarios','lotes']
+        });
 
         return res.status(200).send({
             status: 200,

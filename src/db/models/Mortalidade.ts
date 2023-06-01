@@ -61,15 +61,15 @@ Mortalidade.init({
   },
   cicloId: {
     allowNull: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.BIGINT
   },
   loteId: {
     allowNull: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.BIGINT
   },
   aviarioId: {
     allowNull: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.BIGINT
   },
   dataMorte: {
     allowNull: true,
