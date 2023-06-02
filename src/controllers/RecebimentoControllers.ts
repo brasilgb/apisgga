@@ -28,9 +28,10 @@ const GetRecebimento = async (req: Request, res: Response): Promise<Response> =>
                 {
                     loteId: re.loteId,
                     lote: re.lotes.lote,
-                    dataRecebimento: re.dataRecebimento,
                     femea: re.femea,
-                    macho: re.macho
+                    macho: re.macho,
+                    notaFiscal: re.notaFiscal,
+                    dataRecebimento: re.dataRecebimento
                 }
             ))
         });
@@ -99,11 +100,11 @@ const CreateRecebimento = async (req: Request, res: Response): Promise<Response>
         const create = await Recebimento.create({
             cicloId: values.cicloId,
             loteId: values.loteId,
-            dataRecebimento: values.dataRecebimento,
             dataSearch: values.dataRecebimento,
             femea: values.femea,
             macho: values.macho,
-            notaFiscal: values.notaFiscal
+            notaFiscal: values.notaFiscal,
+            dataRecebimento: values.dataRecebimento
         });
 
         return res.status(201).send({
